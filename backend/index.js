@@ -1,8 +1,7 @@
 import app from './app.js'
 import dotenv from 'dotenv';
-dotenv.config({path: 'backend/config/config.env'});
-
-app.get("/", (req, res)=>{
+dotenv.config({path: 'backend\config\config.env'})
+app.get("/api/v1/products", (req, res)=>{
   res.json({
     message : 'working',
   })
