@@ -1,14 +1,8 @@
 import app from './app.js';
 import dotenv from 'dotenv';
-
-
+import connectMongoDb from './config/db.js';
 dotenv.config({ path: './config/config.env' });
-
-app.get("/api/v1/products", (req, res) => {
-  res.json({
-    message: 'working',
-  });
-});
+connectMongoDb();
 
 const PORT = process.env.PORT
 

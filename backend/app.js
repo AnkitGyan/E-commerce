@@ -4,4 +4,3 @@ import product from "./routes/productsRoutes.js"
 export default app;
 
 app.use("/api/v1", product);
-app.use("api/v1", product);
