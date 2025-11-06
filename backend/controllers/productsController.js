@@ -1,3 +1,5 @@
+import Product from "../models/productModel.js"
+
 export const getAllProducts = (req, res)=>{
   res.status(200).json({
     message : "All products"

@@ -1,0 +1,67 @@
+import mongoose from "mongoose";
+import { Schema } from "mongoose";
+
+const productSchema = new Schema({
+  name : {
+    type : String,
+    required : [true, "Please Enter Product Name"],
+    trim : true
+  },
+  description : {
+    type : String,
+    required : [true, "Please Enter Product Description"],
+  },
+  price :  {
+    type : Number,
+    required : [true, "Please Enter Price"],
+    MaxLength : [7, "Price can't exceed 7 digit"]
+  },
+rating : {
+  type : Number,
+  default: 0
+},
+images : [{
+  public_id :{
+    type : String,
+    required : true
+  },
+  url : {
+    type : String,
+    required : true
+  }
+}],
+category : {
+  type : String,
+  required : [true, "Please Enter product category"]
+},
+stock :{
+  type : Number,
+  required : [true, "Please Enter Produc Stock"],
+  MaxLength : [5, "Stock cannot exceed 5 digits"],
+  default: 1
+},
+noOfReviews : {
+  type: Number,
+  default: 0
+},
+reviews : [{
+  name : {
+    type: String,
+    required : true
+  },
+  rating : {
+    type : Number,
+    required : true
+  },
+  comment : {
+    type : String,
+    required : true
+  }
+}],
+createdAt : {
+  type : Date,
+  default : Date.now()
+}
+})
+
+export default mongoose.model("Product", productSchema);
