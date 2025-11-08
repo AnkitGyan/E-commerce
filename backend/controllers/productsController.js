@@ -1,14 +1,13 @@
 import Product from "../models/productModel.js";
 import { wrapAsync } from "../middlewares/wrapAsync.js";
+import HandleError from "../utils/handleError.js";
 
-export const addProduct = wrapAsync(async (req, res) => {
+//adding product
+export const addProduct = wrapAsync(async (req, res, next) => {
   const { name, description, price, images, category, stock } = req.body;
 
   if (!name || !description || !price || !images || !category || !stock) {
-    return res.status(400).json({
-      success: false,
-      message: "All fields are required",
-    });
+    return next(HandleError(404, "All field are required"));
   }
 
   const product = await Product.create({
@@ -28,14 +27,11 @@ export const addProduct = wrapAsync(async (req, res) => {
 });
 
 
-export const getAllProducts = wrapAsync(async (req, res) => {
+export const getAllProducts = wrapAsync(async (req, res, next) => {
   const products = await Product.find().select("-__v -updatedAt");
 
   if (products.length === 0) {
-    return res.status(404).json({
-      success: false,
-      message: "No products found",
-    });
+   return next(HandleError(404, "No product found"))
   }
 
   res.status(200).json({
@@ -46,16 +42,13 @@ export const getAllProducts = wrapAsync(async (req, res) => {
   });
 });
 
-export const getSingleProduct = wrapAsync(async (req, res) => {
+export const getSingleProduct = wrapAsync(async (req, res, next) => {
   const { id } = req.params;
 
   const product = await Product.findById(id).select("-__v -updatedAt");
 
   if (!product) {
-    return res.status(404).json({
-      success: false,
-      message: "No product found with this ID",
-    });
+    return next(HandleError(404, "No product found with this Id"));
   }
 
   res.status(200).json({
@@ -65,15 +58,12 @@ export const getSingleProduct = wrapAsync(async (req, res) => {
   });
 });
 
-export const updateProduct = wrapAsync(async (req, res) => {
+export const updateProduct = wrapAsync(async (req, res, next) => {
   const { id } = req.params;
 
   let product = await Product.findById(id);
   if (!product) {
-    return res.status(404).json({
-      success: false,
-      message: "Product not found",
-    });
+    return next(HandleError(404, "Product not found"))
   }
 
 
@@ -90,16 +80,13 @@ export const updateProduct = wrapAsync(async (req, res) => {
   });
 });
 
-export const deleteProduct = wrapAsync(async (req, res) => {
+export const deleteProduct = wrapAsync(async (req, res, next) => {
   const { id } = req.params;
 
   const product = await Product.findById(id);
 
   if (!product) {
-    return res.status(404).json({
-      success: false,
-      message: "Product not found",
-    });
+    return next(HandleError(404, "Product not found"));
   }
 
   await product.deleteOne();
