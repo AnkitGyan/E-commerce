@@ -14,7 +14,7 @@ const productSchema = new Schema({
   price :  {
     type : Number,
     required : [true, "Please Enter Price"],
-    MaxLength : [7, "Price can't exceed 7 digit"]
+    maxLength : [7, "Price can't exceed 7 digit"]
   },
 rating : {
   type : Number,
@@ -37,7 +37,7 @@ category : {
 stock :{
   type : Number,
   required : [true, "Please Enter Produc Stock"],
-  MaxLength : [5, "Stock cannot exceed 5 digits"],
+  maxLength : [5, "Stock cannot exceed 5 digits"],
   default: 1
 },
 noOfReviews : {
@@ -60,7 +60,7 @@ reviews : [{
 }],
 createdAt : {
   type : Date,
-  default : Date.now()
+  default : Date.now
 }
 })
 
