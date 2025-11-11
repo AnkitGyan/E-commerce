@@ -29,12 +29,17 @@ export const addProduct = wrapAsync(async (req, res, next) => {
 
 
 export const getAllProducts = wrapAsync(async (req, res, next) => {
-  const apiFuntionality = new APIFuntionality(Product.find(), req.query).search();
+ const apiFuntionality = new APIFuntionality(Product.find(), req.query)
+ .search()
+ .filter()
+ .sort()
+ .pagination()
+ .limitFields();
 
-  const products = await Product.find().select("-__v -updatedAt");
+  const products = await apiFuntionality.query.select("-__v -updatedAt");
 
   if (products.length === 0) {
-   return next(new HandleError(404, "No product found"))
+   return next(new HandleError(404, "No product found"));
   }
 
   res.status(200).json({
