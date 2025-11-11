@@ -8,7 +8,7 @@ export const addProduct = wrapAsync(async (req, res, next) => {
   const { name, description, price, images, category, stock } = req.body;
 
   if (!name || !description || !price || !images || !category || !stock) {
-    return next(HandleError(404, "All field are required"));
+    return next(new HandleError(404, "All field are required"));
   }
 
   const product = await Product.create({
@@ -29,12 +29,12 @@ export const addProduct = wrapAsync(async (req, res, next) => {
 
 
 export const getAllProducts = wrapAsync(async (req, res, next) => {
-  new APIFuntionality(Product.find(), req.query)
+  const apiFuntionality = new APIFuntionality(Product.find(), req.query).search();
 
   const products = await Product.find().select("-__v -updatedAt");
 
   if (products.length === 0) {
-   return next(HandleError(404, "No product found"))
+   return next(new HandleError(404, "No product found"))
   }
 
   res.status(200).json({
@@ -51,7 +51,7 @@ export const getSingleProduct = wrapAsync(async (req, res, next) => {
   const product = await Product.findById(id).select("-__v -updatedAt");
 
   if (!product) {
-    return next(HandleError(404, "No product found with this Id"));
+    return next(new HandleError(404, "No product found with this Id"));
   }
 
   res.status(200).json({
@@ -66,7 +66,7 @@ export const updateProduct = wrapAsync(async (req, res, next) => {
 
   let product = await Product.findById(id);
   if (!product) {
-    return next(HandleError(404, "Product not found"))
+    return next(new HandleError(404, "Product not found"))
   }
 
 
@@ -89,7 +89,7 @@ export const deleteProduct = wrapAsync(async (req, res, next) => {
   const product = await Product.findById(id);
 
   if (!product) {
-    return next(HandleError(404, "Product not found"));
+    return next(new HandleError(404, "Product not found"));
   }
 
   await product.deleteOne();

@@ -1,4 +1,4 @@
-import HandleError from "../utils/handleError";
+import HandleError from "../utils/handleError.js";
 
 export default (err, req, res, next)=>{
 err.statusCode = err.statusCode || 500;
@@ -12,6 +12,6 @@ if(err.name === "CastError"){
 
 res.status(err.statusCode).json({
   success : false,
-  Message : err.Message
+  message : err.message
 })
 }
