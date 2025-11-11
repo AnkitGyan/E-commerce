@@ -1,6 +1,7 @@
 import Product from "../models/productModel.js";
 import { wrapAsync } from "../middlewares/wrapAsync.js";
 import HandleError from "../utils/handleError.js";
+import APIFuntionality from "../utils/apiFuntionality.js";
 
 //adding product
 export const addProduct = wrapAsync(async (req, res, next) => {
@@ -28,6 +29,8 @@ export const addProduct = wrapAsync(async (req, res, next) => {
 
 
 export const getAllProducts = wrapAsync(async (req, res, next) => {
+  new APIFuntionality(Product.find(), req.query)
+
   const products = await Product.find().select("-__v -updatedAt");
 
   if (products.length === 0) {

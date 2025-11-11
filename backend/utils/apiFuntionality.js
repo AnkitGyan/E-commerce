@@ -4,3 +4,5 @@ class APIFuntionality{
     this.queryStr = queryStr
   }
 }
+
+export default APIFuntionality;
