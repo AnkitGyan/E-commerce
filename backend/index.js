@@ -4,6 +4,12 @@ import connectMongoDb from './config/db.js';
 dotenv.config({ path: './config/config.env' });
 connectMongoDb();
 
+app.get("/", (req, res)=>{
+  res.status(200).json({
+    message : "request coming successfully"
+  })
+});
+
 process.on("unhandledRejection", (err)=>{
   console.log(`error : ${err.msg}`);
   console.log("Server is shuting down due to unhandled promise rejection");

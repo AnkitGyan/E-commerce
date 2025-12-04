@@ -2,7 +2,6 @@ import Product from "../models/productModel.js";
 import { wrapAsync } from "../middlewares/wrapAsync.js";
 import HandleError from "../utils/handleError.js";
 import APIFuntionality from "../utils/apiFuntionality.js";
-
 //adding product
 export const addProduct = wrapAsync(async (req, res, next) => {
   const { name, description, price, images, category, stock } = req.body;
@@ -29,17 +28,33 @@ export const addProduct = wrapAsync(async (req, res, next) => {
 
 
 export const getAllProducts = wrapAsync(async (req, res, next) => {
- const apiFuntionality = new APIFuntionality(Product.find(), req.query)
- .search()
- .filter()
- .sort()
- .pagination()
- .limitFields();
+  const resultPerPage = 10;
+
+  const apiFuntionality = new APIFuntionality(Product.find(), req.query)
+    .search()
+    .filter()
+    .sort()
+    .limitFields();
+
+  //  Extract filter conditions BEFORE pagination
+  const queryConditions = apiFuntionality.query.clone().getQuery();
+
+  const totalProducts = await Product.countDocuments(queryConditions);
+
+  const totalPage = Math.ceil(totalProducts / resultPerPage);
+  const currentPage = Number(req.query.page) || 1;
+
+  if (currentPage > totalPage && totalProducts > 0) {
+    return next(new HandleError(404, "This page does not exist"));
+  }
+
+  // Apply pagination
+  apiFuntionality.pagination(resultPerPage);
 
   const products = await apiFuntionality.query.select("-__v -updatedAt");
 
-  if (products.length === 0) {
-   return next(new HandleError(404, "No product found"));
+  if (!products || products.length === 0) {
+    return next(new HandleError(404, "No product found"));
   }
 
   res.status(200).json({
@@ -47,8 +62,10 @@ export const getAllProducts = wrapAsync(async (req, res, next) => {
     message: "Products fetched successfully",
     count: products.length,
     products,
+    totalProducts,
   });
 });
+
 
 export const getSingleProduct = wrapAsync(async (req, res, next) => {
   const { id } = req.params;

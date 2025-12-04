@@ -13,7 +13,6 @@ class APIFuntionality{
         },
       }
     : {};
-   console.log(keyword);
   this.query = this.query.find({ ...keyword });
   return this;
 };
@@ -57,7 +56,7 @@ sort() {
   }
 
   pagination(resultPerPage) {
-    const currentPage = Number(this.queryStr.page) || 1;
+    const currentPage = parseInt(this.queryStr.page) || 1;
     const skip = resultPerPage * (currentPage - 1);
 
     this.query = this.query.limit(resultPerPage).skip(skip);
