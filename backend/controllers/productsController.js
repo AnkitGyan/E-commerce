@@ -36,25 +36,34 @@ export const getAllProducts = wrapAsync(async (req, res, next) => {
     .sort()
     .limitFields();
 
-  //  Extract filter conditions BEFORE pagination
   const queryConditions = apiFuntionality.query.clone().getQuery();
 
   const totalProducts = await Product.countDocuments(queryConditions);
 
-  const totalPage = Math.ceil(totalProducts / resultPerPage);
+  const totalPage = Math.max(1, Math.ceil(totalProducts / resultPerPage));
   const currentPage = Number(req.query.page) || 1;
 
+  // Prevent invalid page number
   if (currentPage > totalPage && totalProducts > 0) {
     return next(new HandleError(404, "This page does not exist"));
   }
 
-  // Apply pagination
+  // Apply pagination now
   apiFuntionality.pagination(resultPerPage);
 
   const products = await apiFuntionality.query.select("-__v -updatedAt");
 
+  // Do NOT send 404 for no products → better UX
   if (!products || products.length === 0) {
-    return next(new HandleError(404, "No product found"));
+    return res.status(200).json({
+      success: true,
+      message: "No products found",
+      count: 0,
+      products: [],
+      totalProducts,
+      currentPage,
+      totalPage,
+    });
   }
 
   res.status(200).json({
@@ -63,8 +72,11 @@ export const getAllProducts = wrapAsync(async (req, res, next) => {
     count: products.length,
     products,
     totalProducts,
+    currentPage,
+    totalPage,
   });
 });
+
 
 
 export const getSingleProduct = wrapAsync(async (req, res, next) => {
