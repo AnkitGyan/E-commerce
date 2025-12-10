@@ -134,3 +134,14 @@ export const deleteProduct = wrapAsync(async (req, res, next) => {
     message: "Product deleted successfully",
   });
 });
+
+//admin get all products --for manage orders
+export const getAdminProducts = wrapAsync(async (req, res, next) => {
+ const products = await Product.find().select("-__v -updatedAt");
+
+ res.status(200).json({
+   success: true,
+   products,
+ });  
+});
+
