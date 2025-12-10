@@ -5,7 +5,7 @@ import { veryifyUser } from "../middlewares/userAuth.js";
 const router = express.Router();    
 router.post("/register", registerUser);
 router.post("/login", loginUser);
-router.get("/logout",veryifyUser, logoutUser);
+router.get("/logout", logoutUser);
 router.get("/me", veryifyUser, getUserProfile);
 router.put("/me/update", veryifyUser, updateUserProfile); 
 

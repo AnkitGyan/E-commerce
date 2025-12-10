@@ -17,6 +17,7 @@ export const addProduct = wrapAsync(async (req, res, next) => {
     images,
     category,
     stock,
+    user: req.user.id,
   });
 
   res.status(201).json({

@@ -15,13 +15,9 @@
         public_id: "sample_id",
         url: "sample_url",
       },
-    }); 
-    sendToken(user, 201, res);
-    res.status(201).json({
-      success: true,
-      message: "User registered successfully",
-      user,
     });
+    user.password = undefined; 
+    sendToken(user, 201, res);
   });
 
  export const loginUser = wrapAsync(async (req, res, next)=>{
@@ -40,12 +36,7 @@
       return next(new HandleError(401, "Invalid email or password"));
     }   
  
-   sendToken(user, 200, res); 
-   res.status(200).json({
-     success: true,
-     message: "User logged in successfully",
-     user,
-   });
+   sendToken(user, 200, res);
  })
 
  export const logoutUser = wrapAsync(async (req, res, next)=>{
@@ -53,7 +44,7 @@
      expires: new Date(Date.now()),
      httpOnly: true,
    });  
-    res.status(200).json({  
+    return res.status(200).json({  
       success: true,
       message: "User logged out successfully",
     });

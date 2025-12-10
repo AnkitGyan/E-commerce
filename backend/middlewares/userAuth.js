@@ -1,6 +1,7 @@
 import { wrapAsync } from "./wrapAsync.js";
 import { UserModel } from "../models/user.js";
-import HandleError from "../utils/handleError.js";  
+import HandleError from "../utils/handleError.js";
+import jwt from "jsonwebtoken";  
 
 
 export const veryifyUser = wrapAsync(async (req, res, next) => {

@@ -2,8 +2,8 @@ import express from 'express';
 import cors from "cors";
 const app = express();
 import errorHandleMiddleware from "./middlewares/Error.js";
-import productsRoutes from "./routes/productsRoutes.js"
-import userRoutes from "./routes/userRoutes.js"
+import productsRoutes from "./routes/productsRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 import cookieParser from "cookie-parser";
 export default app;
 
