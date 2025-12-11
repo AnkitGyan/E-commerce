@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sky Cafe – Pure Veg Restaurant</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    * {
+      margin: 00;
+      padding: 00;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: #f5f7fa;
+      color: #333;
+    }
+
+    header {
+      width: 100%;
+      background: url('https://i.ibb.co/t4GvK5p/blue-bg.jpg');
+      background-size: cover;
+      padding: 40px 20px;
+      text-align: center;
+      color: #fff;
+      animation: fadeDown 1.2s ease;
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .menu-section, .room-section {
+      padding: 40px 20px;
+      animation: fadeUp 1s ease;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 700;
+      color: #007bff;
+    }
+
+    .category {
+      background: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: 0.3s;
+    }
+
+    .category:hover {
+      transform: scale(1.02);
+    }
+
+    .category-name {
+      font-size: 22px;
+      margin-bottom: 12px;
+      font-weight: 600;
+      color: #0056d6;
+    }
+
+    .item {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px dashed #aaa;
+    }
+
+    .item:last-child {
+      border-bottom: none;
+    }
+
+    footer {
+      padding: 25px;
+      text-align: center;
+      background: #000;
+      color: #fff;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 18px;
+      background: #007bff;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-top: 10px;
+      transition: 0.3s;
+    }
+
+    .btn:hover { background: #0056b3; }
+
+    iframe {
+      width: 100%;
+      height: 300px;
+      border: 0;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- HERO SECTION -->
+  <header>
+    <h1 style="font-size: 45px; font-weight: 700;">Sky Cafe</h1>
+    <p style="font-size: 20px;">For the Love of Delicious Food • Pure Veg</p>
+    <a href="https://wa.me/919870782409" class="btn"><i class="fa-brands fa-whatsapp"></i> Order on WhatsApp</a>
+  </header>
+
+  <!-- MENU SECTION -->
+  <div class="menu-section">
+    <h2>Our Menu</h2>
+
+    <!-- Category Example (Repeat for all menu categories) -->
+    <div class="category">
+      <div class="category-name">Momos</div>
+      <div class="item"><span>Veg Momos</span> <span>₹ 70</span></div>
+      <div class="item"><span>Veg Chilli Momos</span> <span>₹ 80</span></div>
+      <div class="item"><span>Veg Kurkure Momos</span> <span>₹ 100</span></div>
+      <div class="item"><span>Paneer Momos</span> <span>₹ 90</span></div>
+      <div class="item"><span>Paneer Chilli Momos</span> <span>₹ 110</span></div>
+      <div class="item"><span>Paneer Kurkure Momos</span> <span>₹ 120</span></div>
+    </div>
+
+    <!-- Add ALL categories (I will fully map your entire menu if you want) -->
+    <!-- Example: Pizza, Burger, Sandwich, Pasta, Rolls, Maggie, Fries, Shakes, Chai/Coffee, Continental etc -->
+  </div>
+
+  <!-- ROOMS FOR RENT SECTION -->
+  <div class="room-section">
+    <h2>Rooms for Rent</h2>
+
+    <div class="category">
+      <div class="category-name">Available Rooms</div>
+      <div class="item"><span>Room 1</span> <span>₹ 1000 / day</span></div>
+      <div class="item"><span>Room 2</span> <span>₹ 1000 / day</span></div>
+      <div class="item"><span>Room 3</span> <span>₹ 1000 / day</span></div>
+      <div class="item"><span>Room 4</span> <span>₹ 1000 / day</span></div>
+    </div>
+
+    <a href="https://wa.me/919870782409?text=I'm%20interested%20in%20room%20booking" class="btn">
+      Book Room on WhatsApp
+    </a>
+  </div>
+
+  <!-- MAP SECTION -->
+  <div class="menu-section">
+    <h2>Find Us</h2>
+
+    <iframe 
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3556.6400818745647!2d77.66730807549479!3d27.58726202944299!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3973713a1bdfb2d1%3A0x4ef95c0d37db114d!2sSky%20Cafe!5e0!3m2!1sen!2sin!4v1700000000000"
+      allowfullscreen="">
+    </iframe>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    © 2025 Sky Cafe • Made with ❤ in Gokul  
+    <br><br>
+    <a href="https://wa.me/919870782409" class="btn">Contact Us</a>
+  </footer>
+
+</body>
+</html>
