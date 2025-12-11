@@ -15,8 +15,8 @@ export const createOrder = wrapAsync(async (req, res, next) => {
     return next(new HandleError(400, "No order items provided"));
   }   
   const order = await Order.create({
+    shippingInfo,
     orderItems,
-    shippingInfo,   
     itemsPrice,
     taxPrice,
     shippingPrice,    
@@ -33,3 +33,32 @@ export const createOrder = wrapAsync(async (req, res, next) => {
 });
 
 //get single order
+export const getSingleOrder = wrapAsync(async (req, res, next) => {
+    const { id } = req.params;
+    const order = await Order.findById(id).populate("user", "name email");
+
+    if(!order){
+      return (new HandleError("Order not found", 404));
+    }
+  res.jsom(201).json({
+    success : true,
+    order
+  })
+});
+
+// get all my order
+
+export const allMyOrder = wrapAsync(async (req, res, next)=>{
+  const order = Order.find({user : req.user._id });
+
+  if(!order){
+    return (new HandleError("No order found", 404));
+  }
+
+  return res.status(200).json({
+    success: true,
+    order
+  })
+})
+
+// admin get all user's order
