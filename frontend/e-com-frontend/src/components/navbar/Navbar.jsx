@@ -1,18 +1,21 @@
 import { useState } from "react";
-import { Search, ShoppingCart, Person, Menu, Close } from "@mui/icons-material";
+import { Search, ShoppingCart, PersonAdd, Menu, Close } from "@mui/icons-material";
 import style from "./Navbar.module.css";
 import { Link } from "react-router-dom";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
 
   return (
     <nav className={style.navbar}>
       <div className={style["navbar-container"]}>
         
         {/* LOGO */}
-        <div className={style["navbar-logo"]}>
-          <Link to="/">Opulex</Link>
+        <div className={style["navbar-logo"]} onClick={()=>setMenuOpen(false)}>
+          <Link to="/">OpuLex</Link>
         </div>
 
         {/* LINKS */}
@@ -34,36 +37,37 @@ function Navbar() {
           
           {/* SEARCH */}
           <div className={style["search-container"]}>
-  <form className={style["search-form"]}>
-    <input
-      type="text"
-      placeholder="Search..."
-      className={style["search-item"]}
-    />
-    <button type="submit" className={style["search-button"]}>
-      <Search />
-    </button>
-  </form>
-</div>
-          {/* USER ICON */}
-          <Link to="/login" className={style["register-link"]}>
-            <button className={style["register-btn"]}>
-              <Person />
-            </button>
-          </Link>
+            <form className={style["search-form"]}>
+              <input
+                type="text"
+                placeholder="Search..."
+                className={style["search-item"]}
+              />
+              <button type="submit" className={style["search-button"]}>
+                <Search />
+              </button>
+            </form>
+          </div>
 
           {/* CART */}
           <div className={style["cart-container"]}>
+            <Link to={"/cart"}>
             <ShoppingCart className={style.icon} />
             <span className={style["cart-badge"]}>2</span>
+            </Link>
           </div>
+
+          {/* USER ICON */}
+          <Link to="/register" className={style["register-link"]}>
+            <button className={style["register-btn"]}>
+              <PersonAdd className={style["icon"]} />
+            </button>
+          </Link>
 
           {/* HAMBURGER MENU (MOBILE) */}
           <div
-            className={style["navbar-hamburger"]}
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            {menuOpen ? <Close /> : <Menu />}
+            className={style["navbar-hamburger"]} onClick={toggleMenu}>
+            {menuOpen ? <Close className={style["icon"]}/> : <Menu />}
           </div>
         </div>
       </div>

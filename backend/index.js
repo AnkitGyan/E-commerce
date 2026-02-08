@@ -10,7 +10,7 @@ app.get("/", (req, res)=>{
   })
 });
 
-process.on("unhandledRejection", (err)=>{
+process.on("uncaughtException", (err)=>{
   console.log(`error : ${err.msg}`);
   console.log("Server is shuting down due to unhandled promise rejection");
     process.exit(1);

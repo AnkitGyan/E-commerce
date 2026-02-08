@@ -16,11 +16,32 @@ class APIFuntionality{
   this.query = this.query.find({ ...keyword });
   return this;
 };
-
+ 
 filter() {
   const queryCopy = { ...this.queryStr };
+
   const removeFields = ["keyword", "page", "limit", "sort"];
   removeFields.forEach((el) => delete queryCopy[el]);
+
+
+  if (queryCopy.category) {
+    queryCopy.category = {
+      $regex: queryCopy.category,
+      $options: "i",
+    };
+  }
+
+
+  const numFields = ["price", "ratings", "stock"];
+
+  numFields.forEach((field) => {
+    if (queryCopy[field]) {
+      Object.keys(queryCopy[field]).forEach((op) => {
+        queryCopy[field][op] = Number(queryCopy[field][op]);
+      });
+    }
+  });
+
 
   let queryStr = JSON.stringify(queryCopy);
   queryStr = queryStr.replace(
@@ -31,7 +52,7 @@ filter() {
   this.query = this.query.find(JSON.parse(queryStr));
 
   return this;
-};
+}
 
 sort() {
     if (this.queryStr.sort) {

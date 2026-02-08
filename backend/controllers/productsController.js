@@ -35,7 +35,7 @@ export const getAllProducts = wrapAsync(async (req, res, next) => {
     .search()
     .filter()
     .sort()
-    .limitFields();
+    .limitFields(); 
 
   const queryConditions = apiFuntionality.query.clone().getQuery();
 
@@ -52,7 +52,7 @@ export const getAllProducts = wrapAsync(async (req, res, next) => {
   // Apply pagination now
   apiFuntionality.pagination(resultPerPage);
 
-  const products = await apiFuntionality.query.select("-__v -updatedAt");
+  const products = await apiFuntionality.query;
 
   // Do NOT send 404 for no products → better UX
   if (!products || products.length === 0) {

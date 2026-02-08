@@ -1,0 +1,89 @@
+/* IMAGE SLIDER CONTAINER*/
+.image-slider-container {
+  position: relative;
+  width: 100%;         
+  margin: 0.3rem 0 0; 
+  height: 400px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #111;  
+}
+
+
+/* Slider movement container */
+.slider-images {
+  display: flex;
+  width: 100%;
+  transition: transform 0.8s ease-in-out;
+}
+
+/* Each slide */
+.slider-item {
+  min-width: 100%;
+  height: 100%;
+}
+
+/* Slide images */
+.slider-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;  
+  background: #000;   
+}
+
+/* =======================
+       GRADIENT OVERLAY
+   ======================= */
+.image-slider-container::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 120px;
+  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+  pointer-events: none;
+}
+
+/* =======================
+         DOTS CONTROL
+   ======================= */
+.slider-dots {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.6rem;
+  z-index: 5;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.dot.active,
+.dot:hover {
+  background: white;
+  transform: scale(1.2);
+}
+
+/* =======================
+      MOBILE RESPONSIVE
+   ======================= */
+
+@media (max-width: 768px) {
+  .image-slider-container {
+    height: 300px;
+  }
+}
+
+@media (max-width: 568px) {
+  .image-slider-container {
+    height: 240px;
+  }
+}
