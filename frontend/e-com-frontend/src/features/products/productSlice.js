@@ -1,47 +1,48 @@
 import { createSlice, createAsyncThunk, isFulfilled } from "@reduxjs/toolkit";
 import axios from "axios";
 
-createAsyncThunk("product/getProduct", async (__, {rejectwithValue})=>{
-  try{
-    const link = '/api/v1/products';
-    const data = await axios.get(link);
-    console.log("data :", data);
-  }catch(err){
-    return rejectwithValue(err.response.data || "An error occured")
+export const getProduct = createAsyncThunk("product/getProduct", async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get("/api/v1/products");
+      console.log(data);
+      return data;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data || "An error occurred"
+      );
+    }
   }
-})
+);
 
 const productSlice = createSlice({
-  name : "product",
-  initialState :{
-    products : [],
-    productCount : 0,
+  name: "product",
+  initialState: {
+    products: [],
+    productCount: 0,
     loading: false,
-    error : null
-  } ,
-  reducers : {
-    removeEorrors : (state)=>{
-      state.error = null;
-    }
+    error: null,
   },
-  extraReducers : (builder)=>{
-   builder.addCase(getProduct, isPending, (state)=>{
-    state.loading = true;
-    state.error = null
-   })
-   .addCase(getProduct, isFulfilled, (state, actions)=>{
-    console.log('Fullfilled action payload', actions.payload);
-     state.loading = false;
-    state.error = null;
-    state.products = actions.payload.products;
-    state.productCount = actions.payload.productCount;
-   })
-   .addCase(getProduct.rejected, (state)=>{
-    state.loading = false;
-    state.error = action.payload || "Something went wrong";
-   })
-  }
-})
+  reducers: {
+    removeErrors: (state) => {
+      state.error = null;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getProduct.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.product = action.payload.products;
+        state.productCount = action.payload.productCount;
+      })
+      .addCase(getProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+  },
+});
 
 export const {removeEorrors} = productSlice.actions;
 export default productSlice.reducer;
