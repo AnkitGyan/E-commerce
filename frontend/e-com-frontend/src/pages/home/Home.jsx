@@ -22,10 +22,12 @@ useEffect(()=>{
       <Navbar></Navbar>
       <div className={style["home-container"]}>
         <ImageSlider/>
-        <h2>Welcome to OpuLex</h2>
-        {product.map((prod, index) => (
-          <Product key={index} product={prod} />
+        <h2 className={style["home-heading"]}>Welcome to OpuLex</h2>
+        <div className={style["home-product-container"]}>
+        {product && product.map((prod) => (
+          <Product key={prod._id} product={prod} />
         ))}
+        </div>
       </div>
       <Footer></Footer>
     </>
