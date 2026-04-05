@@ -13,6 +13,7 @@ export const createOrder = wrapAsync(async (req, res, next) => {
   if (!orderItems || orderItems.length === 0) {
     return next(new HandleError(400, "No order items provided"));
   }   
+  
   const order = await Order.create({
     shippingInfo,
     orderItems,
