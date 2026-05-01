@@ -4,7 +4,7 @@ import HandleError from "../utils/handleError.js";
 import jwt from "jsonwebtoken";  
 
 
-export const verifyUser = wrapAsync(async (req, res, next) => {
+export const veryifyUser = wrapAsync(async (req, res, next) => {
   const token = req.cookies?.token;
 
   if (!token) {
