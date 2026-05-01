@@ -11,6 +11,9 @@ export const veryifyUser = wrapAsync(async (req, res, next) => {
     } 
     console.log(token);
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if(!decoded){
+      return next(new HandleError(401, "Invalid token, please login again"));
+    }
     req.user = await UserModel.findById(decoded.id);
     next(); 
 });

@@ -9,6 +9,10 @@
 
   export const registerUser = wrapAsync(async (req, res, next) => {
     const { name, email, password } = req.body;
+    const existingUser = await UserModel.findOne({ email});
+    if(existingUser){
+      return next(new HandleError(400, "User already exists with this email, please login to continue"));
+    } 
     const user = await UserModel.create({
       name,
       email,
