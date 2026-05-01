@@ -12,7 +12,7 @@
     const existingUser = await UserModel.findOne({ email});
     if(existingUser){
       return next(new HandleError(400, "User already exists with this email, please login to continue"));
-    } 
+    }  
     const user = await UserModel.create({
       name,
       email,
@@ -45,16 +45,21 @@
    sendToken(user, 200, res);
  })
 
- export const logoutUser = wrapAsync(async (req, res, next)=>{
-   res.cookie("token", null, {
-     expires: new Date(Date.now()),
-     httpOnly: true,
-   });  
-    return res.status(200).json({  
-      success: true,
-      message: "User logged out successfully",
-    });
- });
+ export const logoutUser = wrapAsync(async (req, res, next) => {
+  const cookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    path: "/",
+  };
+
+  res.clearCookie("token", cookieOptions);
+
+  return res.status(200).json({
+    success: true,
+    message: "User logged out successfully",
+  });
+});
 
  //reset password
  export const forgotPassword = wrapAsync(async (req, res, next)=>{
