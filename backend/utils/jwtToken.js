@@ -7,7 +7,7 @@ function sendToken(user, statusCode, res) {
     ),
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "strict", // or "lax"
+    sameSite: "strict",
     path: "/",
   };
 

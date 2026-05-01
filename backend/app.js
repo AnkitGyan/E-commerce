@@ -16,7 +16,7 @@ app.use(cookieParser());
 
 app.use("/api/v1", productsRoutes);
 app.use("/api/v1/user", userRoutes);
-app.use("/api/v1/", orderRoutes)
+app.use("/api/v1/", orderRoutes);
 
 // app.get("/", (req, res)=>{
 //   res.status(200).json({
