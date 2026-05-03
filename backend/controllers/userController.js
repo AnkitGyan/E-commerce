@@ -119,6 +119,10 @@
 
  export const getUserProfile = wrapAsync(async (req, res, next)=>{
    const user = await UserModel.findById(req.user.id);
+   if(!user){
+    return next(new HandleError(404, "User not found"));
+   }
+   user.password = undefined;
    res.status(200).json({
      success: true,
      user,
@@ -180,19 +184,21 @@ export const getSingleUser = wrapAsync(async (req, res, next)=>{
 });
 
 //admin update user role
-export const updateUserRole = wrapAsync(async (req, res, next)=>{  
+export const updateUserRole = wrapAsync(async (req, res, next) => {
+  const { role } = req.body;
   const user = await UserModel.findByIdAndUpdate(
-    req.params.id,    
-    req.body,
+    req.params.id,
+    { role },
     {
-      new: true,      
+      new: true,
       runValidators: true,
-      useFindAndModify: false,
-    }     
-  );    
-  if(!user){
+    }
+  );
+
+  if (!user) {
     return next(new HandleError(404, `User does not exist with Id: ${req.params.id}`));
-  }     
+  }
+
   res.status(200).json({
     success: true,
     message: "User role updated successfully",
