@@ -31,9 +31,11 @@ const productSlice = createSlice({
     builder
       .addCase(getProduct.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(getProduct.fulfilled, (state, action) => {
         state.loading = false;
+        state.error = null;
         state.product = action.payload.products;
         state.productCount = action.payload.productCount;
       })

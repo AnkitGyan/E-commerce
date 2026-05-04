@@ -2,10 +2,10 @@
 .image-slider-container {
   position: relative;
   width: 100%;         
-  margin: 0.3rem 0 0; 
+  margin: 0.3rem 0 0.3rem 0; 
   height: 400px;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 8px;
   background: #111;  
 }
 
