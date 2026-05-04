@@ -7,6 +7,7 @@ import PageTitle from "../../components/pageTitle/PageTitle";
 import { useSelector, useDispatch } from "react-redux";
 import { getProduct } from "../../features/products/productSlice";
 import { useEffect } from "react";
+import Loader from "../../components/loader/Loader";
 
 
 function Home(){
@@ -18,6 +19,7 @@ useEffect(()=>{
 
   return(
     <>
+    {loading ? <Loader/> : <>
     <PageTitle title="Opulex"/>
       <Navbar></Navbar>
       <div className={style["home-container"]}>
@@ -30,6 +32,7 @@ useEffect(()=>{
         </div>
       </div>
       <Footer></Footer>
+    </>}
     </>
   )
 }

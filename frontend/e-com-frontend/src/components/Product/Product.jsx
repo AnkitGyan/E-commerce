@@ -13,7 +13,7 @@ function Product({ product }) {
   return (
     <Link to={`/product/${product._id}`} className={style.link}>
     <div className={style["product-card"]}>
-      <img src={product.images[0].url} alt={product.name}/>
+     <img src={product?.images?.[0]?.url} alt={product?.name} className={style["product-image-card"]}/>
       <div className={style["product-details"]}>
         <h3 className={style["product-title"]}>{product.name}</h3>
         <p className={style["home-price"]}><strong>Price</strong>{product.price}</p>
