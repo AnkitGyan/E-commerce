@@ -8,6 +8,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { getProduct } from "../../features/products/productSlice";
 import { useEffect } from "react";
 import Loader from "../../components/loader/Loader";
+import { toast } from "react-toastify";
+import { removeEorrors } from "../../features/products/productSlice";
 
 
 function Home(){
@@ -16,6 +18,13 @@ const dispatch = useDispatch();
 useEffect(()=>{
   dispatch(getProduct());
 },[dispatch])
+
+useEffect(()=>{
+  if(error){
+    toast.error(error.message, {position: 'top-center', autoClose: 3000, theme: 'colored'});
+    dispatch(removeErrors());
+  }
+},[error, dispatch])
 
   return(
     <>
