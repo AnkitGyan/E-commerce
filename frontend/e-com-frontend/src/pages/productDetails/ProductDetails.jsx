@@ -1,17 +1,60 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import style from './ProductDetails.module.css';
 import PageTitle from '../../components/pageTitle/PageTitle';
 import Navbar from '../../components/navbar/Navbar';
 import Footer  from '../../components/footer/Footer';
 import Rating from '../../components/Product/Rating';
+import Loader from '../../components/loader/Loader'
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { getProductDetails, removeErrors } from '../../features/products/productSlice';
+import { toast } from 'react-toastify';
 
 function ProductDetails() {
   const [userRating, setUserRating] = useState(0);
+  const {error, loading, product} = useSelector((state)=>state.product);
+  const [value, setValue] = useState(0);
+
+  const increaseCartValue = (newValue) =>{
+    setValue((newValue)=> newValue + 1);
+  }
+  
+  const decreaseCartValue = (newValue)=>{
+    setValue((newValue)=> newValue - 1);
+  }
   
   const handleRatingChange = (newRating) =>{
     setUserRating(newRating);
   }
+
+  const dispatch = useDispatch();
+  const {id} = useParams();
+
+ useEffect(() => {
+  if(id){
+    dispatch(getProductDetails(id));
+  }
+}, [dispatch, id]);
+
+useEffect(() => {
+  if(error){
+    toast.error(error);
+
+    dispatch(removeErrors());
+  }
+}, [error, dispatch]);
+
+    if(loading){
+      return(
+        <>
+        <Navbar/>
+        <Loader/>
+        <Footer/>
+        </>
+      )
+    }
+
   return (
     <>
     <PageTitle title = "Product Name-Details"/>
@@ -19,24 +62,25 @@ function ProductDetails() {
     <div className={style["product-details-container"]}>
       <div className={style["product-detail-container"]}>
         <div className={style["product-image-container"]}>
-          <img src="https://cdn.pixabay.com/photo/2023/06/05/17/19/shopping-8042865_640.png" alt="Product Image" className={style["product-detail-image"]}/>
+          <img src = {product?.images?.[0]?.url} alt="Product Image" className={style["product-detail-image"]}/>
         </div>
 
         <div className={style["product-info"]}>
-          <h2>Product Description</h2>
-          <p className={style['product-description']}>product description</p>
-          <p className={style["product-price"]}>price: 200/-</p>
+          <h2>{product?.name}</h2>
+          <p className={style['product-description']}>{product?.description}</p>
+          <p className={style["product-price"]}>Price: ${product?.price}</p>
           <div className={style["product-rating"]}>
             <Rating value={2} disabled={true}/>
-            <span className={style["productCardSpan"]}>(1 review)</span>
+            <span className={style["productCardSpan"]}>{product?.noOfReviews} {product?.noOfReviews === 1 ? 'Review' : 'Reviews'}</span>
           </div>
-          <div className={style["stock-status"]}><span className={style["in-stock"]}>In Stock(8 available)</span></div>
-          <div className={style["quantity-controls"]}>
+          <div className={style["stock-status"]}><span  className={
+  product?.stock > 0 ? style["in-stock"] : style["out-stock"]}>{product?.stock > 0 ? `In Stock (${product?.stock} available)` : 'Out of Stock'}</span></div>
+          {product.stock > 0 && (<><div className={style["quantity-controls"]}>
             <span className={style["quantity-label"]}>Quantity:</span>
-            <button className={style["quantity-button"]}>-</button>
-            <input type="number" className={style["quantity-value"]} value={1} readOnly/>
-            <button className={style["quantity-button"]}>+</button>
-          </div>
+            <button className={style["quantity-button"]} onClick={()=>decreaseCartValue(value)}>-</button>
+            <input type="number" className={style["quantity-value"]} value={value} readOnly/>
+            <button className={style["quantity-button"]} onClick={()=>increaseCartValue(value)}>+</button>
+          </div></>)}
            <button className={style['add-to-cart-btn']}>Add to Cart</button>
            <form className={style["review-form"]}>
             <h3>Write a Review</h3>
@@ -48,15 +92,18 @@ function ProductDetails() {
       </div>
        <div className={style["reviews-container"]}>
         <h3>Customer Reviews</h3>
-        <div className={style["reviews-section"]}>
-          <div className={style["review-item"]}>
-            <div className={style["review-header"]}>
-              <Rating value={4} disabled={true}/>
-            </div>
-            <p className={style["review-comment"]}>Review Comment</p>
-            <p className = {style["review-name"]}>By Ankit</p>
+
+        {product.reviews && product.reviews > 0 ?(<div className={style["reviews-section"]}>
+          {product.reviews.map((review)=>(
+            <div className={style["review-item"]}>
+              <div className={style["review-header"]}>
+                <Rating value={review.rating} disabled={true}/>
+              </div>
+              <p className={style["review-comment"]}>{review.comment}</p>
+            <p className = {style["review-name"]}>By {review.name}</p>
           </div>
-        </div>
+          ))}
+        </div>) :   (<p className={style["no-reviews"]}>No reviews yet. Be the first to review this product!</p>)}
       </div>
     </div>
     <Footer/>

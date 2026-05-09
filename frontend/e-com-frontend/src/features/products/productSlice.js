@@ -22,10 +22,10 @@ export const getProductDetails = createAsyncThunk("product/getProductDetails", a
   rejectWithValue,
 })=>{
   try{
-    const { data } = await axios.get('/api/v1/product/${id');
+    const { data } = await axios.get(`/api/v1/product/${id}`);
     return data;
   } catch(err){
-    return rejectWithvalue(
+    return rejectWithValue(
       err.response?.data || "An error occured"
     )
   }
@@ -75,6 +75,7 @@ const productSlice = createSlice({
       })
 
       .addCase(getProductDetails.fulfilled, (state, action)=>{
+        console.log("Product details fetced successfully", action.payload);
         state.loading = false;
         state.error = null;
         state.product = action.payload.product;
