@@ -16,13 +16,17 @@ function ProductDetails() {
   const {error, loading, product} = useSelector((state)=>state.product);
   const [value, setValue] = useState(0);
 
-  const increaseCartValue = (newValue) =>{
-    setValue((newValue)=> newValue + 1);
+ const increaseCartValue = () => {
+  if(value < product?.stock){
+    setValue((prev) => prev + 1);
   }
+}
   
-  const decreaseCartValue = (newValue)=>{
-    setValue((newValue)=> newValue - 1);
+ const decreaseCartValue = () => {
+  if(value >= 1){
+    setValue((prev) => prev - 1);
   }
+}
   
   const handleRatingChange = (newRating) =>{
     setUserRating(newRating);
@@ -48,6 +52,7 @@ useEffect(() => {
     if(loading){
       return(
         <>
+         <PageTitle title = "Product Name-Details"/>
         <Navbar/>
         <Loader/>
         <Footer/>
@@ -70,12 +75,14 @@ useEffect(() => {
           <p className={style['product-description']}>{product?.description}</p>
           <p className={style["product-price"]}>Price: ${product?.price}</p>
           <div className={style["product-rating"]}>
-            <Rating value={2} disabled={true}/>
+            <Rating value={product?.ratings} disabled={true}/>
             <span className={style["productCardSpan"]}>{product?.noOfReviews} {product?.noOfReviews === 1 ? 'Review' : 'Reviews'}</span>
           </div>
           <div className={style["stock-status"]}><span  className={
-  product?.stock > 0 ? style["in-stock"] : style["out-stock"]}>{product?.stock > 0 ? `In Stock (${product?.stock} available)` : 'Out of Stock'}</span></div>
-          {product.stock > 0 && (<><div className={style["quantity-controls"]}>
+            product?.stock > 0 ? 
+            style["in-stock"]  
+            : style["out-stock"]}>{product?.stock > 0 ? `In Stock (${product?.stock} available)` : 'Out of Stock'}</span></div>
+          {product?.stock > 0 && (<><div className={style["quantity-controls"]}>
             <span className={style["quantity-label"]}>Quantity:</span>
             <button className={style["quantity-button"]} onClick={()=>decreaseCartValue(value)}>-</button>
             <input type="number" className={style["quantity-value"]} value={value} readOnly/>
@@ -93,7 +100,7 @@ useEffect(() => {
        <div className={style["reviews-container"]}>
         <h3>Customer Reviews</h3>
 
-        {product.reviews && product.reviews > 0 ?(<div className={style["reviews-section"]}>
+        {product?.reviews && product?.reviews?.length > 0 ?(<div className={style["reviews-section"]}>
           {product.reviews.map((review)=>(
             <div className={style["review-item"]}>
               <div className={style["review-header"]}>
