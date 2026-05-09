@@ -18,6 +18,19 @@ export const getProduct = createAsyncThunk(
   }
 );
 
+export const getProductDetails = createAsyncThunk("product/getProductDetails", async (id, {
+  rejectWithValue,
+})=>{
+  try{
+    const { data } = await axios.get('/api/v1/product/${id');
+    return data;
+  } catch(err){
+    return rejectWithvalue(
+      err.response?.data || "An error occured"
+    )
+  }
+})
+
 const productSlice = createSlice({
   name: "product",
 
@@ -26,6 +39,7 @@ const productSlice = createSlice({
     productCount: 0,
     loading: false,
     error: null,
+    product: null,
   },
 
   reducers: {
@@ -54,7 +68,22 @@ const productSlice = createSlice({
 
         state.error =
           action.payload?.error || "Failed to fetch products";
-      });
+      })
+
+      .addCase(getProductDetails.pending, (state)=>{
+        state.loading = true;
+      })
+
+      .addCase(getProductDetails.fulfilled, (state, action)=>{
+        state.loading = false;
+        state.error = null;
+        state.product = action.payload.product;
+      })
+
+      .addCase(getProductDetails.rejected, (state, action)=>{
+        state.loading = false;
+        state.error = action.payload?.error || "Failed to fetch product details";
+      })
   },
 });
 
