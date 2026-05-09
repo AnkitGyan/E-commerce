@@ -1,10 +1,14 @@
-import { createSlice, createAsyncThunk, isFulfilled } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const getProduct = createAsyncThunk("product/getProduct", async (_, { rejectWithValue }) => {
+export const getProduct = createAsyncThunk(
+  "product/getProduct",
+  async (_, { rejectWithValue }) => {
     try {
       const { data } = await axios.get("/api/v1/products");
+
       console.log(data);
+
       return data;
     } catch (err) {
       return rejectWithValue(
@@ -16,35 +20,44 @@ export const getProduct = createAsyncThunk("product/getProduct", async (_, { rej
 
 const productSlice = createSlice({
   name: "product",
+
   initialState: {
     products: [],
     productCount: 0,
     loading: false,
     error: null,
   },
+
   reducers: {
     removeErrors: (state) => {
       state.error = null;
     },
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(getProduct.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
+
       .addCase(getProduct.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.product = action.payload.products;
+
+        state.products = action.payload.products;
         state.productCount = action.payload.productCount;
       })
+
       .addCase(getProduct.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+
+        state.error =
+          action.payload?.error || "Failed to fetch products";
       });
   },
 });
 
-export const {removeEorrors} = productSlice.actions;
+export const { removeErrors } = productSlice.actions;
+
 export default productSlice.reducer;
