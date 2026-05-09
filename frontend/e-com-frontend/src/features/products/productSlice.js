@@ -3,9 +3,10 @@ import axios from "axios";
 
 export const getProduct = createAsyncThunk(
   "product/getProduct",
-  async (_, { rejectWithValue }) => {
+  async ({keyword}, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get("/api/v1/products");
+     const link = keyword? `api/v1/products?keyword=${encodeURIComponent(keyword)}` : 'api/v1/products';
+     const { data } = await axios.get(link); 
 
       console.log(data);
 

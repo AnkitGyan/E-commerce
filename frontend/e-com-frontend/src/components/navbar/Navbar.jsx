@@ -1,10 +1,32 @@
 import { useState } from "react";
 import { Search, ShoppingCart, PersonAdd, Menu, Close } from "@mui/icons-material";
 import style from "./Navbar.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearchChange = (e)=>{
+    setSearchQuery(e.target.value);
+  }
+
+  const handleSearchSubmit = (e) =>{
+    e.preventDefault();
+    //implement search functionality here
+    console.log(`Searcing for: ${searchQuery}`);
+    if(searchQuery.trim() !== ""){
+      navigate(`/products?keyword=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery("");
+      setMenuOpen(false);
+    }else{
+      navigate("products");
+      setMenuOpen(false);
+      setSearchQuery("");
+    }
+    
+  }
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
@@ -37,13 +59,15 @@ function Navbar() {
           
           {/* SEARCH */}
           <div className={style["search-container"]}>
-            <form className={style["search-form"]}>
+            <form className={style["search-form"]} onSubmit={(e)=>e.preventDefault()}>
               <input
                 type="text"
                 placeholder="Search..."
                 className={style["search-item"]}
+                value={searchQuery}
+                onChange={handleSearchChange}
               />
-              <button type="submit" className={style["search-button"]}>
+              <button type="submit" className={style["search-button"]} onClick={handleSearchSubmit}>
                 <Search />
               </button>
             </form>

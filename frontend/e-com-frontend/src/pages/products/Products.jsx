@@ -10,15 +10,19 @@ import { useEffect } from 'react';
 import Loader from '../../components/loader/Loader';
 import { toast } from 'react-toastify';
 import { removeErrors } from '../../features/products/productSlice';
+import { useLocation } from 'react-router-dom';
 
 function Products() {
   const {loading, products, productCount, error } = useSelector((state) => state.product);
   
     const dispatch = useDispatch();
-  
+    const location = useLocation();
+    const search = new URLSearchParams(location.search);
+    const keyword = search.get("keyword") || "";
+
     useEffect(() => {
-      dispatch(getProduct());
-    }, [dispatch]);
+      dispatch(getProduct({keyword}));
+    }, [dispatch, keyword]);
   
     useEffect(() => {
       if(error){
