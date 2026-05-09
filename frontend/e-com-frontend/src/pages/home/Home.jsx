@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import Loader from "../../components/loader/Loader"; 
 import { toast } from "react-toastify"; 
 import { removeErrors } from "../../features/products/productSlice";
+import NoProduct from "../../components/noProduct/NoProduct";
 
 function Home() {
 
@@ -58,13 +59,15 @@ function Home() {
 
             <div className={style["home-product-container"]}>
 
-              {products &&
-                products.map((prod) => (
+              {products && products.length>0 ?
+                (products.map((prod) => (
                   <Product
                     key={prod._id}
                     product={prod}
                   />
-                ))}
+                ))) : (
+                  <NoProduct />
+                )}
 
             </div>
 

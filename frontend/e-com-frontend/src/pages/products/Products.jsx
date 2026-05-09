@@ -11,6 +11,7 @@ import Loader from '../../components/loader/Loader';
 import { toast } from 'react-toastify';
 import { removeErrors } from '../../features/products/productSlice';
 import { useLocation } from 'react-router-dom';
+import NoProduct from '../../components/noProduct/NoProduct';
 
 function Products() {
   const {loading, products, productCount, error } = useSelector((state) => state.product);
@@ -47,9 +48,10 @@ function Products() {
           {/*RENDER CATEGORIED */}
         </div>
         <div className={style["products-section"]}>
-        <div className={style["products-product-container"]}>
+
+        {products && products.length>0 ? (<div className={style["products-product-container"]}>
             {products && products.map((prod) => ( <Product key={prod._id} product={prod}/>))}
-        </div>
+        </div>) : <NoProduct keyword={keyword}/>}
       </div>
     </div>)}
     <Footer/>
