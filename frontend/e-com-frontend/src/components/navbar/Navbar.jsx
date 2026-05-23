@@ -21,7 +21,7 @@ function Navbar() {
       setSearchQuery("");
       setMenuOpen(false);
     }else{
-      navigate("products");
+      navigate("/products");
       setMenuOpen(false);
       setSearchQuery("");
     }

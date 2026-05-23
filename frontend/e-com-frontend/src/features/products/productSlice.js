@@ -3,9 +3,11 @@ import axios from "axios";
 
 export const getProduct = createAsyncThunk(
   "product/getProduct",
-  async ({keyword}, { rejectWithValue }) => {
+  async ({keyword, page=1}, { rejectWithValue }) => {
     try {
-     const link = keyword? `api/v1/products?keyword=${encodeURIComponent(keyword)}` : 'api/v1/products';
+   const link = keyword
+  ? `api/v1/products?keyword=${encodeURIComponent(keyword)}&page=${page}`
+  : `api/v1/products?page=${page}`;
      const { data } = await axios.get(link); 
 
       console.log(data);
@@ -41,6 +43,8 @@ const productSlice = createSlice({
     loading: false,
     error: null,
     product: null,
+    resultsPerPage : 4,
+    totalPages : 0,
   },
 
   reducers: {
@@ -62,13 +66,16 @@ const productSlice = createSlice({
 
         state.products = action.payload.products;
         state.productCount = action.payload.productCount;
+        state.resultsPerPage = action.payload.resultsPerPage;
+        state.totalPages = Math.ceil(action.payload.productCount/ action.payload.resultsPerPage);
       })
 
       .addCase(getProduct.rejected, (state, action) => {
         state.loading = false;
 
-        state.error =
-          action.payload?.error || "Failed to fetch products";
+        state.error = action.payload?.error || "Failed to fetch products";
+        state.products = [];
+        state.productCount = 0;
       })
 
       .addCase(getProductDetails.pending, (state)=>{
