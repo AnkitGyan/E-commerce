@@ -6,12 +6,14 @@ import productsRoutes from "./routes/productsRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js"
 import userRoutes from "./routes/userRoutes.js";
 import cookieParser from "cookie-parser";
+import fileUpload from "express-fileupload";
 export default app;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(cookieParser());
+app.use(fileUpload());
 
 
 app.use("/api/v1", productsRoutes);

@@ -3,12 +3,18 @@
   import HandleError from "../utils/handleError.js";  
   import sendToken from "../utils/jwtToken.js";
   import { sendEmail } from "../utils/sendEmail.js";
+  import {v2 as cloudinary} from "cloudinary";
   import crypto from "crypto";
 
   
 
   export const registerUser = wrapAsync(async (req, res, next) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, avatar } = req.body;
+    const myCloud = await cloudinary.uploader.upload(avatar, {
+      folder : "avatars",
+      width : 150,
+      crop : "scale",
+    })
     const existingUser = await UserModel.findOne({ email});
     if(existingUser){
       return next(new HandleError(400, "User already exists with this email, please login to continue"));
@@ -18,8 +24,8 @@
       email,
       password,
       avatar: {
-        public_id: "sample_id",
-        url: "sample_url",
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
       },
     });
     user.password = undefined; 
