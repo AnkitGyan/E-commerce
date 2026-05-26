@@ -77,7 +77,7 @@ sort() {
   }
 
   pagination(resultPerPage) {
-    const currentPage = parseInt(this.queryStr.page) || 1;
+    const currentPage = Math.max(1, parseInt(this.queryStr.page) || 1);
     const skip = resultPerPage * (currentPage - 1);
 
     this.query = this.query.limit(resultPerPage).skip(skip);

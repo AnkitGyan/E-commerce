@@ -4,7 +4,7 @@ import PageTitle from '../../components/pageTitle/PageTitle';
 import Navbar from '../../components/navbar/Navbar';
 import Footer from '../../components/footer/Footer';
 import Product from '../../components/Product/Product';
-import Pagination from '@mui/material/Pagination';
+import Pagination from '../../components/pagination/Pagination';
 import { useSelector, useDispatch } from 'react-redux';
 import { getProduct } from '../../features/products/productSlice';  
 import { useEffect } from 'react';
@@ -43,7 +43,7 @@ function Products() {
       }
     }, [error, dispatch]);
 
-    const handlePageChange = (event, page)=>{
+    const handlePageChange = (page)=>{
       if(page !== currentPage){
         setCurrentPage(page);
         const searchParams = new URLSearchParams(location.search);

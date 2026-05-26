@@ -29,7 +29,7 @@ export const addProduct = wrapAsync(async (req, res, next) => {
 
 
 export const getAllProducts = wrapAsync(async (req, res, next) => {
-  const resultPerPage = 10;
+  const resultPerPage = 6;
 
   const apiFuntionality = new APIFuntionality(Product.find(), req.query)
     .search()
