@@ -12,6 +12,7 @@ import Profile from "./user/profile/Profile.jsx";
 import UpdateProfile from "./user/updateProfile.jsx/UpdateProfile.jsx";
 import ProtectedRoute from "./components/protectedRoute/ProtectedRoute.jsx";
 import UpdatePassword from "./user/updatePassword/UpdatePassword.jsx";
+import ForgotPassword from "./user/forgotPassword/ForgotPassword.jsx";
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
       <Route path="/profile/update" element={<ProtectedRoute element={<UpdateProfile/>}/>}/>
       <Route path="/profile" element={<ProtectedRoute element={<Profile/>}/>}/>
       <Route path="/password/update" element={<ProtectedRoute element={<UpdatePassword/>}/>}/>
+      <Route path="/password/forgot" element={<ForgotPassword/>}/>
     </Routes>
     {isAuthenticated && <UserDashboard user={user}/>}
     </BrowserRouter>
