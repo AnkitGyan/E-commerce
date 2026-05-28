@@ -42,15 +42,19 @@ export const loadUser=createAsyncThunk('user/loadUser',async(_,{rejectWithValue}
     }
 })
 
-export const logout=createAsyncThunk('user/logout',async(_,{rejectWithValue})=>{
-    try{
-        const {data}=await axios.post('/api/v1/user/logout',{withCredentials:true});
-        return data
-    }catch(error){
-        return rejectWithValue(error.response?.data || 'Logout failed')
+export const logout = createAsyncThunk("user/logout", async (_, { rejectWithValue }) => {
+    try {
+      console.log("Calling logout API")
+      const  { data } = await axios.post("/api/v1/user/logout");
+      console.log(data);
+      return data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Logout failed"
+      );
     }
-})
-
+  }
+);
 
 const userSlice=createSlice({
     name:'user',

@@ -1,102 +1,81 @@
-import { useState } from "react";
-import { Search, ShoppingCart, PersonAdd, Menu, Close } from "@mui/icons-material";
-import style from "./Navbar.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import {Link, useNavigate} from 'react-router-dom';
+import SearchIcon from '@mui/icons-material/Search';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from '@mui/icons-material/Menu';
+import './Navbar.css';
+import { useSelector } from 'react-redux';
+
 
 function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const navigate = useNavigate();
-
-  const handleSearchChange = (e)=>{
-    setSearchQuery(e.target.value);
-  }
-
-  const handleSearchSubmit = (e) =>{
-    e.preventDefault();
-    //implement search functionality here
-    console.log(`Searcing for: ${searchQuery}`);
-    if(searchQuery.trim() !== ""){
-      navigate(`/products?keyword=${encodeURIComponent(searchQuery.trim())}`);
-      setSearchQuery("");
-      setMenuOpen(false);
-    }else{
-      navigate("/products");
-      setMenuOpen(false);
-      setSearchQuery("");
+    const [isMenuOpen,setIsMenuOpen]=useState(false);
+    const [isSearchOpen,setIsSearchOpen]=useState(false);
+    const [searchQuery,setSearchQuery]=useState("");
+    const toggleSearch=()=>setIsSearchOpen(!isSearchOpen)
+    const toggleMenu=()=>setIsMenuOpen(!isMenuOpen);
+    const {isAuthenticated}=useSelector(state=>state.user)
+    // const {cartItems}=useSelector(state=>state.cart)
+    const navigate=useNavigate();
+    const handleSearchSubmit=(e)=>{
+        e.preventDefault();
+        if(searchQuery.trim()){
+            navigate(`/products?keyword=${encodeURIComponent(searchQuery.trim())}`)
+        }else{
+            navigate(`/products`)
+        }
+        setSearchQuery("")
     }
-    
-  }
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
+     return (
+    <nav className="navbar">
+        <div className="navbar-container">
+            <div className="navbar-logo">
+                <Link to="/" onClick={()=>setIsMenuOpen(false)}>ShopEasy</Link>
+            </div>
 
-  return (
-    <nav className={style.navbar}>
-      <div className={style["navbar-container"]}>
-        
-        {/* LOGO */}
-        <div className={style["navbar-logo"]} onClick={()=>setMenuOpen(false)}>
-          <Link to="/">OpuLex</Link>
+            <div className={`navbar-links ${isMenuOpen?'active':""}`}>
+                <ul>
+                    <li onClick={()=>setIsMenuOpen(false)}><Link to="/">Home</Link></li>
+                    <li><Link to="/products">Products</Link></li>
+                    <li><Link to="/about-us">About Us</Link></li>
+                    <li><Link to="/contact-us">Contact Us</Link></li>
+                </ul>
+            </div>
+
+            <div className="navbar-icons">
+                <div className="search-container">
+                    <form className={`search-form ${isSearchOpen?'active':''}`} onSubmit={handleSearchSubmit}>
+                        <input 
+                        type="text"
+                         className='search-input'
+                         placeholder='Search products..'
+                         value={searchQuery}
+                         onChange={(e)=>setSearchQuery(e.target.value)}
+                        />
+                        <button type="button" className="search-icon" onClick={toggleSearch}>
+                            <SearchIcon focusable="false"/>
+                        </button>
+                    </form>
+                </div>
+
+                <div className="cart-container">
+                    <Link to="/cart">
+                    <ShoppingCartIcon className="icon"/>
+                    <span className="cart-badge">0</span>
+                    </Link>
+                </div>
+
+             {!isAuthenticated &&   <Link to="/register" className='register-link'>
+                <PersonAddIcon className='icon'/>
+                </Link>}
+                <div className="navbar-hamburger" onClick={toggleMenu}>
+                   {isMenuOpen? <CloseIcon className='icon'/>:<MenuIcon className='icon'/>}
+                </div>
+            </div>
         </div>
-
-        {/* LINKS */}
-        <div
-          className={`${style["navbar-links"]} ${
-            menuOpen ? style.active : ""
-          }`}
-        >
-          <ul>
-            <li><Link to="/" onClick={() => setMenuOpen(false)}>Home</Link></li>
-            <li><Link to="/products" onClick={() => setMenuOpen(false)}>Products</Link></li>
-            <li><Link to="/about-us" onClick={() => setMenuOpen(false)}>About</Link></li>
-            <li><Link to="/contact-us" onClick={() => setMenuOpen(false)}>Contact</Link></li>
-          </ul>
-        </div>
-
-        {/* RIGHT SIDE ICONS */}
-        <div className={style["navbar-icons"]}>
-          
-          {/* SEARCH */}
-          <div className={style["search-container"]}>
-            <form className={style["search-form"]} onSubmit={(e)=>e.preventDefault()}>
-              <input
-                type="text"
-                placeholder="Search..."
-                className={style["search-item"]}
-                value={searchQuery}
-                onChange={handleSearchChange}
-              />
-              <button type="submit" className={style["search-button"]} onClick={handleSearchSubmit}>
-                <Search />
-              </button>
-            </form>
-          </div>
-
-          {/* CART */}
-          <div className={style["cart-container"]}>
-            <Link to={"/cart"}>
-            <ShoppingCart className={style.icon} />
-            <span className={style["cart-badge"]}>2</span>
-            </Link>
-          </div>
-
-          {/* USER ICON */}
-          <Link to="/register" className={style["register-link"]}>
-            <button className={style["register-btn"]}>
-              <PersonAdd className={style["icon"]} />
-            </button>
-          </Link>
-
-          {/* HAMBURGER MENU (MOBILE) */}
-          <div
-            className={style["navbar-hamburger"]} onClick={toggleMenu}>
-            {menuOpen ? <Close className={style["icon"]}/> : <Menu />}
-          </div>
-        </div>
-      </div>
     </nav>
-  );
+  )
 }
 
-export default Navbar;
+export default Navbar

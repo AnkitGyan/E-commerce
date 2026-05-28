@@ -6,7 +6,7 @@ import { get } from "http";
 const router = express.Router();    
 router.post("/register", registerUser);
 router.post("/login", loginUser);
-router.get("/logout", logoutUser);
+router.post("/logout", logoutUser);
 router.post("/passsword/update", veryifyUser, updateUserProfile); 
 router.post("/password/forgot", forgotPassword);
 router.post("/reset/:token", resetPassword);

@@ -1,11 +1,9 @@
-import { useState } from 'react';
-import './UserDashboard.css';
-import { useEffect } from 'react';
+import React, { useState } from 'react';
+import './UserDashboard.css'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { logout, removeSuccess } from '../../features/user/userSlice';
-
 function UserDashboard({user}) {
     // const {cartItems}=useSelector(state=>state.cart)
     const dispatch=useDispatch();
@@ -56,8 +54,10 @@ function UserDashboard({user}) {
     <div className={`overlay ${menuVisible?'show':''}`} onClick={toggleMenu}></div>
     <div className="dashboard-container">
         <div className="profile-header" onClick={toggleMenu}>
-            <img src={user.avatar.url?user.avatar.url:'./images/profile.png'} alt="Profile Picture" className='profile-avatar'/>
-            <span className="profile-name">{user.name || 'User'}</span>
+            <img src={user?.avatar?.url?user.avatar.url:'./images/profile.png'} alt="Profile Picture" className='profile-avatar'/>
+            <span className="profile-name">
+              {user?.name ? user.name.split(' ')[0] : 'User'}
+            </span>
         </div>
        { menuVisible && (<div className="menu-options">
            { options.map((item)=>(

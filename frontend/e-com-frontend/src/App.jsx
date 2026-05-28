@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "./features/user/userSlice.js";
 import UserDashboard from "./user/userDashboard/UserDashboard.jsx";
+import Profile from "./user/profile/Profile.jsx";
 
 function App() {
 
@@ -17,7 +18,6 @@ function App() {
   useEffect(()=>{
     dispatch(loadUser());
   },[dispatch]);
-  console.log("App.js - isAuthenticated:", isAuthenticated, "user:", user);
 
   return (
     <BrowserRouter>
@@ -28,6 +28,7 @@ function App() {
       <Route path="/products/:keyword" element={<Products/>}/>
       <Route path="/register" element={<Register/>} />
       <Route path="/login" element={<Login/>} />
+      <Route path="/profile" element={<Profile/>} />
     </Routes>
     {isAuthenticated && <UserDashboard user={user}/>}
     </BrowserRouter>
