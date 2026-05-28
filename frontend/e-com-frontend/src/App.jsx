@@ -6,6 +6,15 @@ import Register from "./user/register/Register.jsx";
 import Login from "./user/login/Login.jsx";
 
 function App() {
+
+  const {isAuthenticated, user} = useSelector(state=>state.user);
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    dispatch(loadUser());
+  },[dispatch]);
+  console.log("App.js - isAuthenticated:", isAuthenticated, "user:", user);
+
   return (
     <BrowserRouter>
     <Routes>

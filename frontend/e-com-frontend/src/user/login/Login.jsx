@@ -17,18 +17,18 @@ function Login() {
         e.preventDefault();
         dispatch(login({email:loginEmail,password:loginPassword}))
     }
-       useEffect(()=>{
-            if(error){
-              toast.error(error,{position:'top-center',autoClose:3000});
-              dispatch(removeErrors())
-            }
-          },[dispatch,error])
+    useEffect(()=>{
+        if(error){
+            toast.error(error,{position:'top-center',autoClose:3000});
+            dispatch(removeErrors())
+        }
+        },[dispatch,error])
 
-   useEffect(()=>{
-    if(isAuthenticated){
-        navigate(redirect)
-    }
-   },[isAuthenticated])
+    useEffect(() => {
+            if(isAuthenticated){
+                navigate(redirect)
+            }
+        }, [isAuthenticated, navigate, redirect])
    useEffect(()=>{
     if(success){
         toast.success('Login Successful',{position:'top-center',autoClose:3000})

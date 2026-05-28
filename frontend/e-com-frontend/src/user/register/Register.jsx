@@ -17,6 +17,7 @@ function Register() {
     const {success,loading,error}=useSelector(state=>state.user)
     const dispatch=useDispatch()
     const navigate=useNavigate();
+    
     const registerDataChange=(e)=>{
         if(e.target.name==='avatar'){
             const reader=new FileReader();

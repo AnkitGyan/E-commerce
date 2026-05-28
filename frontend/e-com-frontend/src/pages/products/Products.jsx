@@ -104,7 +104,7 @@ function Products() {
         <Loader />
       ) : (
         <div className={style["products-layout"]}>
-          {/* ================= FILTER SECTION ================= */}
+          {/* FILTER SECTION */}
           <div className={style["filter-section"]}>
             <h2 className={style["filter-heading"]}>CATEGORIES</h2>
 
@@ -123,7 +123,7 @@ function Products() {
             </ul>
           </div>
 
-          {/* ================= PRODUCTS SECTION ================= */}
+          {/*  PRODUCTS SECTION */}
           <div className={style["products-section"]}>
             {products && products.length > 0 ? (
               <div className={style["products-product-container"]}>
