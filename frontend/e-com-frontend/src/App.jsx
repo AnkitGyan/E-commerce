@@ -10,6 +10,8 @@ import { loadUser } from "./features/user/userSlice.js";
 import UserDashboard from "./user/userDashboard/UserDashboard.jsx";
 import Profile from "./user/profile/Profile.jsx";
 import UpdateProfile from "./user/updateProfile.jsx/UpdateProfile.jsx";
+import ProtectedRoute from "./components/protectedRoute/ProtectedRoute.jsx";
+import UpdatePassword from "./user/updatePassword/UpdatePassword.jsx";
 
 function App() {
 
@@ -30,7 +32,8 @@ function App() {
       <Route path="/register" element={<Register/>} />
       <Route path="/login" element={<Login/>} />
       <Route path="/profile/update" element={<ProtectedRoute element={<UpdateProfile/>}/>}/>
-      <Route path="/profile" element={<Profile/>} />
+      <Route path="/profile" element={<ProtectedRoute element={<Profile/>}/>}/>
+      <Route path="/password/update" element={<ProtectedRoute element={<UpdatePassword/>}/>}/>
     </Routes>
     {isAuthenticated && <UserDashboard user={user}/>}
     </BrowserRouter>

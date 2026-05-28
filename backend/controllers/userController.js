@@ -150,23 +150,58 @@
     sendToken(user, 200, res); 
   });
 
-  export const updateUserProfile = wrapAsync(async (req, res, next)=>{  
-    const user = await UserModel.findByIdAndUpdate( 
-      req.user.id,    
-      req.body,
-      {
-        new: true,      
-        runValidators: true,  
-        useFindAndModify: false,
-      }     
-    );      
+  export const updateUserProfile = wrapAsync(
+  async (req, res, next) => {
+
+    const { name, email, avatar } = req.body;
+
+    const user = await UserModel.findById(req.user.id);
+
+    if (!user) {
+      return next(
+        new HandleError(404, "User not found")
+      );
+    }
+
+    let avatarData = user.avatar;
+    if (avatar) {
+
+      if (user.avatar?.public_id) {
+        await cloudinary.uploader.destroy(
+          user.avatar.public_id
+        );
+      }
+
+      // Upload new avatar
+      const myCloud = await cloudinary.uploader.upload(
+        avatar,
+        {
+          folder: "avatars",
+          width: 150,
+          crop: "scale",
+        }
+      );
+
+      avatarData = {
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
+      };
+    }
+    user.name = name || user.name;
+    user.email = email || user.email;
+    user.avatar = avatarData;
+
+    await user.save();
+
+    user.password = undefined;
+
     res.status(200).json({
       success: true,
       message: "User profile updated successfully",
       user,
     });
   }
-);  
+);
 
 // amdmin get user list
 export const getAllUsers = wrapAsync(async (req, res, next)=>{  
