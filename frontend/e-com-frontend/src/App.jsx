@@ -4,6 +4,10 @@ import ProductDetails from "./pages/productDetails/ProductDetails.jsx";
 import Products from "./pages/products/Products.jsx";
 import Register from "./user/register/Register.jsx";
 import Login from "./user/login/Login.jsx";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loadUser } from "./features/user/userSlice.js";
+import UserDashboard from "./user/userDashboard/UserDashboard.jsx";
 
 function App() {
 
@@ -25,6 +29,7 @@ function App() {
       <Route path="/register" element={<Register/>} />
       <Route path="/login" element={<Login/>} />
     </Routes>
+    {isAuthenticated && <UserDashboard user={user}/>}
     </BrowserRouter>
   );
 }

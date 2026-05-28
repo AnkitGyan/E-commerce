@@ -1,5 +1,6 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
+axios.defaults.withCredentials = true;
 
 export const register=createAsyncThunk('user/register',async (userData,{rejectWithValue})=>{
   try{
@@ -38,6 +39,15 @@ export const loadUser=createAsyncThunk('user/loadUser',async(_,{rejectWithValue}
         return data;
     }catch(error){
         return rejectWithValue(error.response?.data || 'Failed to load user profile')
+    }
+})
+
+export const logout=createAsyncThunk('user/logout',async(_,{rejectWithValue})=>{
+    try{
+        const {data}=await axios.post('/api/v1/user/logout',{withCredentials:true});
+        return data
+    }catch(error){
+        return rejectWithValue(error.response?.data || 'Logout failed')
     }
 })
 
@@ -86,7 +96,6 @@ const userSlice=createSlice({
       })
        
       //login case
-
         .addCase(login.pending,(state)=>{
             state.loading=true,
             state.error=null
@@ -110,7 +119,6 @@ const userSlice=createSlice({
         })
 
         // Loading User
-      builder
       .addCase(loadUser.pending,(state)=>{
           state.loading=true,
           state.error=null
@@ -137,6 +145,26 @@ const userSlice=createSlice({
               localStorage.removeItem('isAuthenticated')
           }
       })
+
+    .addCase(logout.pending,(state)=>{
+            state.loading=true,
+            state.error=null
+        })
+
+        .addCase(logout.fulfilled,(state,action)=>{
+            state.loading=false,
+            state.error=null
+            state.user=null
+            state.isAuthenticated=false
+            localStorage.removeItem('user')
+            localStorage.removeItem('isAuthenticated')
+            
+        })
+        .addCase(logout.rejected,(state,action)=>{
+            state.loading=false,
+            state.error=action.payload?.message ||'Failed to load user profile'
+        })
+
 
     }
 })
