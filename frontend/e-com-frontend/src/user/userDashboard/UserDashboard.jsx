@@ -38,7 +38,7 @@ function UserDashboard({user}) {
        .then(()=>{
         toast.success('Logout Successful',{position:'top-center',autoClose:3000})
         dispatch(removeSuccess())
-        navigate('/login')
+        navigate('/')
        })
        .catch((error)=>{
         toast.success(error.message || 'Logout Failed',{position:'top-center',autoClose:3000})

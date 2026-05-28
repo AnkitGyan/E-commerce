@@ -31,7 +31,7 @@ function Navbar() {
     <nav className="navbar">
         <div className="navbar-container">
             <div className="navbar-logo">
-                <Link to="/" onClick={()=>setIsMenuOpen(false)}>ShopEasy</Link>
+                <Link to="/" onClick={()=>setIsMenuOpen(false)}>Opulex</Link>
             </div>
 
             <div className={`navbar-links ${isMenuOpen?'active':""}`}>
@@ -66,7 +66,7 @@ function Navbar() {
                     </Link>
                 </div>
 
-             {!isAuthenticated &&   <Link to="/register" className='register-link'>
+             {!isAuthenticated &&   <Link to="/login" className='register-link'>
                 <PersonAddIcon className='icon'/>
                 </Link>}
                 <div className="navbar-hamburger" onClick={toggleMenu}>
