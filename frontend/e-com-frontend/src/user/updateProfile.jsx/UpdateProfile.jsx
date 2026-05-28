@@ -6,8 +6,8 @@ import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { removeErrors, removeSuccess, updateProfile } from '../features/user/userSlice';
-import Loader from '../components/Loader';
+import { removeErrors, removeSuccess, updateProfile } from '../../features/user/userSlice';
+import Loader from '../../components/loader/Loader';
 
 function UpdateProfile() {
     const [name,setName]=useState("");
