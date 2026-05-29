@@ -1,5 +1,5 @@
 import express from "express";
-import { registerUser, loginUser, logoutUser, getUserProfile, updateUserProfile, forgotPassword, resetPassword, getAllUsers, getSingleUser, updateUserRole, deleteUser  } from "../controllers/userController.js";  
+import { registerUser, loginUser, logoutUser, getUserProfile, updateUserProfile, forgotPassword, resetPassword, getAllUsers, getSingleUser, updateUserRole, deleteUser, updateUserPassword  } from "../controllers/userController.js";  
 import { roleBasedAccess, veryifyUser,  } from "../middlewares/userAuth.js";
 import { get } from "http";
 
@@ -7,7 +7,7 @@ const router = express.Router();
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.post("/logout", logoutUser);
-router.post("/passsword/update", veryifyUser, updateUserProfile); 
+router.put("/passsword/update", veryifyUser, updateUserPassword); 
 router.post("/password/forgot", forgotPassword);
 router.post("/reset/:token", resetPassword);
 router.get("/me", veryifyUser, getUserProfile);

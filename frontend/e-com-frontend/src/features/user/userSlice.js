@@ -58,7 +58,6 @@ export const updateProfile=createAsyncThunk('user/updateProfile',async(userData,
 
 export const logout = createAsyncThunk("user/logout", async (_, { rejectWithValue }) => {
     try {
-      console.log("Calling logout API")
       const  { data } = await axios.post("/api/v1/user/logout");
       console.log(data);
       return data;
@@ -78,7 +77,7 @@ export const updatePassword=createAsyncThunk('user/updatePassword',async(formDat
             }
         }
         const {data}=await axios.put('/api/v1/user/passsword/update',formData,config);
-        return data
+        return data;
     }catch(error){
         return rejectWithValue(error.response?.data || 'Password update failed')
     }

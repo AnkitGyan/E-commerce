@@ -19,7 +19,7 @@ function Profile() {
         <PageTitle title={`${user.name} Profile`}/>
         <div className="profile-image">
             <h1 className="profile-heading">My Profile</h1>
-            <img src={user.avatar.url ?user.avatar.url:'./images/profile.png'} alt="User Profile" className="profile-image" />
+            <img src={user?.avatar?.url ?user.avatar.url:'./images/profile.png'} alt="User Profile" className="profile-image" />
             <Link to="/profile/update">Edit Profile</Link>
         </div>
         <div className="profile-details">

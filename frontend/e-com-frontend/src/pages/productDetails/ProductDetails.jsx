@@ -9,12 +9,15 @@ import Loader from '../../components/loader/Loader'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getProductDetails, removeErrors } from '../../features/products/productSlice';
+import { addItemsToCart } from '../../features/cart/cartSlice.js'
 import { toast } from 'react-toastify';
 
 function ProductDetails() {
   const [userRating, setUserRating] = useState(0);
   const {error, loading, product} = useSelector((state)=>state.product);
-  const [value, setValue] = useState(0);
+  const {loading:cartLoading,error:cartError,success,message,cartItems}=useSelector((state)=>state.cart);
+
+  const [value, setValue] = useState(1);
 
  const increaseCartValue = () => {
   if(value < product?.stock){
@@ -23,8 +26,8 @@ function ProductDetails() {
 }
   
  const decreaseCartValue = () => {
-  if(value >= 1){
-    setValue((prev) => prev - 1);
+  if(value > 1){
+  setValue((prev) => prev - 1);
   }
 }
   
@@ -48,6 +51,23 @@ useEffect(() => {
     dispatch(removeErrors());
   }
 }, [error, dispatch]);
+
+useEffect(() => {
+  if (cartError) {
+    toast.error(cartError);
+  }
+
+  if (success) {
+    toast.success(message);
+  }
+}, [cartError, success, message]);
+
+const addToCart = () => {
+  dispatch(addItemsToCart({
+    id,
+    quantity: value
+  }));
+};
 
     if(loading){
       return(
@@ -88,7 +108,13 @@ useEffect(() => {
             <input type="number" className={style["quantity-value"]} value={value} readOnly/>
             <button className={style["quantity-button"]} onClick={()=>increaseCartValue(value)}>+</button>
           </div></>)}
-           <button className={style['add-to-cart-btn']}>Add to Cart</button>
+           <button className={style['add-to-cart-btn']} onClick={addToCart} disabled={product?.stock < 1 || cartLoading}>
+                {cartLoading ? (<>
+                    <i className="fa fa-spinner fa-spin"></i> Adding...
+                  </>) : (
+                  "Add to Cart"
+                )}
+          </button>
            <form className={style["review-form"]}>
             <h3>Write a Review</h3>
             <Rating value={0} disabled={false} onRatingChange={handleRatingChange}/>
