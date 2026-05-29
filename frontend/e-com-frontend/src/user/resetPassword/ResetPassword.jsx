@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeErrors, removeSuccess, resetPassword } from '../../features/user/userSlice';
 import { toast } from 'react-toastify';
+import Navbar from '../../components/navbar/Navbar';
 
 function ResetPassword() {
     const {success,loading,error}=useSelector(state=>state.user)
@@ -40,6 +41,7 @@ function ResetPassword() {
   return (
    <>
   <PageTitle title="Reset Password"/>
+  <Navbar/>
     <div className="container form-container">
           <div className="form-content">
             <form className="form" onSubmit={resetPasswordSubmit}>
@@ -54,6 +56,7 @@ function ResetPassword() {
             </form>
         </div>
     </div>
+    <Footer/>
    </>
   )
 }
