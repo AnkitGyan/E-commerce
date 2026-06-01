@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { logout, removeSuccess } from '../../features/user/userSlice';
 function UserDashboard({user}) {
-    // const {cartItems}=useSelector(state=>state.cart)
+    const {cartItems}=useSelector(state=>state.cart)
     const dispatch=useDispatch();
     const navigate=useNavigate();
     const [menuVisible,setMenuVisible]=useState(false);
@@ -15,7 +15,7 @@ function UserDashboard({user}) {
     const options=[
         {name:'Orders',funcName:orders},
         {name:'Account',funcName:profile},
-        // {name:`Cart(${cartItems.length})`,funcName:myCart,isCart:true},
+        {name:`Cart(${cartItems.length})`,funcName:myCart,isCart:true},
         {name:'Logout',funcName:logoutUser},
     ]
     if(user.role==='admin'){
