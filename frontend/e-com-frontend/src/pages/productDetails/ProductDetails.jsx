@@ -9,7 +9,7 @@ import Loader from '../../components/loader/Loader'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getProductDetails, removeErrors } from '../../features/products/productSlice';
-import { addItemsToCart } from '../../features/cart/cartSlice.js'
+import { addItemsToCart, removeMessage } from '../../features/cart/cartSlice.js'
 import { toast } from 'react-toastify';
 
 function ProductDetails() {
@@ -20,15 +20,21 @@ function ProductDetails() {
   const [value, setValue] = useState(1);
 
  const increaseCartValue = () => {
-  if(value < product?.stock){
-    setValue((prev) => prev + 1);
+  if (value >= product?.stock) {
+    toast.error(`Only ${product?.stock} items in stock`, {position: 'top-center', autoclose: 3000});
+    return;
   }
-}
+
+  setValue(prev => prev + 1);
+};
   
  const decreaseCartValue = () => {
-  if(value > 1){
+  if(value <= 1){
+    toast.error('Minimum quantity is 1', {position: 'top-center', autoclose: 3000})
+    dispatch(removeErrors());
+    return;
+  };
   setValue((prev) => prev - 1);
-  }
 }
   
   const handleRatingChange = (newRating) =>{
@@ -46,7 +52,7 @@ function ProductDetails() {
 
 useEffect(() => {
   if(error){
-    toast.error(error);
+    toast.error(error, {position: 'top-center', autoclose: 3000});
 
     dispatch(removeErrors());
   }
@@ -54,19 +60,23 @@ useEffect(() => {
 
 useEffect(() => {
   if (cartError) {
-    toast.error(cartError);
+    toast.error(cartError, {position: 'top-center', autoclose: 3000});
+    dispatch(removeErrors());
   }
 
   if (success) {
-    toast.success(message);
+    toast.success(message, {position: 'top-center', autoclose: 3000});
+    dispatch(removeMessage());
   }
-}, [cartError, success, message]);
+}, [cartError, success, message, dispatch]);
 
 const addToCart = () => {
   dispatch(addItemsToCart({
     id,
     quantity: value
   }));
+  toast.success('Item added to cart', {position: 'top-center', autoclose: 3000});
+  dispatch(removeMessage());
 };
 
     if(loading){
@@ -104,9 +114,9 @@ const addToCart = () => {
             : style["out-stock"]}>{product?.stock > 0 ? `In Stock (${product?.stock} available)` : 'Out of Stock'}</span></div>
           {product?.stock > 0 && (<><div className={style["quantity-controls"]}>
             <span className={style["quantity-label"]}>Quantity:</span>
-            <button className={style["quantity-button"]} onClick={()=>decreaseCartValue(value)}>-</button>
+            <button className={style["quantity-button"]} onClick={()=>decreaseCartValue}>-</button>
             <input type="number" className={style["quantity-value"]} value={value} readOnly/>
-            <button className={style["quantity-button"]} onClick={()=>increaseCartValue(value)}>+</button>
+            <button className={style["quantity-button"]} onClick={()=>increaseCartValue}>+</button>
           </div></>)}
            <button className={style['add-to-cart-btn']} onClick={addToCart} disabled={product?.stock < 1 || cartLoading}>
                 {cartLoading ? (<>

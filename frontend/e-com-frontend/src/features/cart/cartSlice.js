@@ -9,7 +9,7 @@ export const addItemsToCart=createAsyncThunk('cart/addItemsToCart',async ({id,qu
         product:data.product._id,
         name:data.product.name,
         price:data.product.price,
-        image:data.product.image[0]?.url,
+        image:data.product.images[0]?.url,
         stock:data.product.stock,
         quantity
     }
@@ -34,7 +34,8 @@ const cartSlice=createSlice({
         state.error=null
      },
      removeMessage:(state)=>{
-        state.message=null
+        state.message=null;
+        state.success=false;
      },
      
      removeItemFromCart:(state,action)=>{
@@ -77,7 +78,7 @@ const cartSlice=createSlice({
             state.success=true
             localStorage.setItem('cartItems',JSON.stringify(state.cartItems))
         })
-        .addCase(addItemsToCart.rejected,(state)=>{
+        .addCase(addItemsToCart.rejected,(state, action)=>{
             state.loading=false,
                state.error=action.payload?.message ||'An error occurred'
         })
