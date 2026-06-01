@@ -14,6 +14,7 @@ import ProtectedRoute from "./components/protectedRoute/ProtectedRoute.jsx";
 import UpdatePassword from "./user/updatePassword/UpdatePassword.jsx";
 import ForgotPassword from "./user/forgotPassword/ForgotPassword.jsx";
 import ResetPassword from "./user/resetPassword/ResetPassword.jsx";
+import Cart from "./cart/cartItems/Cart.jsx";
 
 function App() {
 
@@ -37,7 +38,8 @@ function App() {
       <Route path="/profile" element={<ProtectedRoute element={<Profile/>}/>}/>
       <Route path="/password/update" element={<ProtectedRoute element={<UpdatePassword/>}/>}/>
       <Route path="/password/forgot" element={<ForgotPassword/>}/>
-       <Route path="/reset/:token" element={<ResetPassword/>}/>
+      <Route path="/reset/:token" element={<ResetPassword/>}/>
+      <Route path="/cart" element={<Cart/>}/>
     </Routes>
     {isAuthenticated && <UserDashboard user={user}/>}
     </BrowserRouter>
