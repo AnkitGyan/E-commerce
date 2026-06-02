@@ -15,3 +15,10 @@ export const processPayment = wrapAsync(async (req, res, next)=>{
     order
    })
 })
+
+//Send API Key
+export const sendAPIKey = wrapAsync(async (req, res) => {
+  res.status(200).json({
+    key: process.env.RAZORPAY_API_KEY,
+  });
+});
