@@ -5,6 +5,7 @@ import errorHandleMiddleware from "./middlewares/Error.js";
 import productsRoutes from "./routes/productsRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js"
 import userRoutes from "./routes/userRoutes.js";
+import paymentRoutes from "./routes/paymentRoutes.js";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 export default app;
@@ -19,6 +20,7 @@ app.use(fileUpload());
 app.use("/api/v1", productsRoutes);
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/", orderRoutes);
+app.use("/api/v1/", paymentRoutes);
 
 // app.get("/", (req, res)=>{
 //   res.status(200).json({
