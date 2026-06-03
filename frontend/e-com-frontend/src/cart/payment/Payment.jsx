@@ -19,15 +19,16 @@ function Payment() {
     const {data:keyData}=await axios.get('/api/v1/getKey');
     const {key}=keyData;
     
-    const {data:orderData}=await axios.post('/api/v1/payment/process'  ,{amount});
+    const {data:orderData}=await axios.post('/api/v1/payment/process', {amount});
+    console.log(orderData)
     const {order}=orderData
 
     const options = {
       key, 
       amount,
       currency: 'INR',
-      name: 'ShopEasy',
-      description: 'Ecommerce Website Payment Transaction',
+      name: 'Opulex ',
+      description: 'E-commerce Transaction',
       order_id: order.id,
       handler:async function(response){
         const {data}=await axios.post('/api/v1/paymentVerification',{

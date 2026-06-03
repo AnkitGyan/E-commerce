@@ -75,8 +75,6 @@ const addToCart = () => {
     id,
     quantity: value
   }));
-  toast.success('Item added to cart', {position: 'top-center', autoclose: 3000});
-  dispatch(removeMessage());
 };
 
     if(loading){
@@ -114,9 +112,9 @@ const addToCart = () => {
             : style["out-stock"]}>{product?.stock > 0 ? `In Stock (${product?.stock} available)` : 'Out of Stock'}</span></div>
           {product?.stock > 0 && (<><div className={style["quantity-controls"]}>
             <span className={style["quantity-label"]}>Quantity:</span>
-            <button className={style["quantity-button"]} onClick={()=>decreaseCartValue}>-</button>
+            <button className={style["quantity-button"]} onClick={()=>decreaseCartValue()}>-</button>
             <input type="number" className={style["quantity-value"]} value={value} readOnly/>
-            <button className={style["quantity-button"]} onClick={()=>increaseCartValue}>+</button>
+            <button className={style["quantity-button"]} onClick={()=>increaseCartValue()}>+</button>
           </div></>)}
            <button className={style['add-to-cart-btn']} onClick={addToCart} disabled={product?.stock < 1 || cartLoading}>
                 {cartLoading ? (<>
