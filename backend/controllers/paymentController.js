@@ -1,6 +1,7 @@
 import { instance } from '../index.js';
 import { wrapAsync } from '../middlewares/wrapAsync.js';
 import HandleError from '../utils/handleError.js';
+import crypto from "crypto";
 
 export const processPayment = wrapAsync(async (req, res, next)=>{
    const options = {

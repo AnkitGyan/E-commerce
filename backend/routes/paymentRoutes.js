@@ -1,6 +1,6 @@
 import express from 'express';
 import { veryifyUser } from '../middlewares/userAuth.js';
-import { processPayment, sendAPIKey } from '../controllers/paymentController.js';
+import { processPayment, sendAPIKey, paymentVerification } from '../controllers/paymentController.js';
 const router = express.Router();
 
 router.post("/payment/process", veryifyUser, processPayment);

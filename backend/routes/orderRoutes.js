@@ -5,7 +5,8 @@ const router = express.Router();
 
 
 router.post("/order/new", veryifyUser, createOrder);
-router.get("/orders/user", veryifyUser, allMyOrder)
+router.get("/order/:id", veryifyUser, getSingleOrder);
+router.get("/orders/me", veryifyUser, allMyOrder);
 router.get("/admin/order/:id", veryifyUser, roleBasedAccess("admin"), getSingleOrder);
 router.put("/admin/order/:id", veryifyUser, roleBasedAccess("admin"), orderStatus);
 router.get("/admin/orders", veryifyUser, roleBasedAccess("admin"), allOrders);
