@@ -146,7 +146,7 @@ export const createProductReview = wrapAsync(async (req, res, next) => {
     user : req.user._id,
     name : req.user.name,
     rating : Number(rating),
-    comment : commment,
+    comment : comment,
   }
   const product = await Product.findById(productId);
   if(!product){
@@ -159,7 +159,7 @@ export const createProductReview = wrapAsync(async (req, res, next) => {
   if(isReviewed){
     product.reviews.forEach((rev) => {    
       if(rev.user.toString() === req.user._id.toString()){  
-        rev.rating = rating;
+        rev.rating = Number(rating);
         rev.comment = comment;
       }
     });
