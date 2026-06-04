@@ -8,16 +8,17 @@ import Rating from '../../components/Product/Rating';
 import Loader from '../../components/loader/Loader'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getProductDetails, removeErrors } from '../../features/products/productSlice';
+import { createReview, getProductDetails, removeErrors, removeSuccess } from '../../features/products/productSlice';
 import { addItemsToCart, removeMessage } from '../../features/cart/cartSlice.js'
 import { toast } from 'react-toastify';
 
 function ProductDetails() {
   const [userRating, setUserRating] = useState(0);
-  const {error, loading, product} = useSelector((state)=>state.product);
+  const {error, loading, product, reviewSuccess,reviewLoading} = useSelector((state)=>state.product);
   const {loading:cartLoading,error:cartError,success,message,cartItems}=useSelector((state)=>state.cart);
 
   const [value, setValue] = useState(1);
+  const [comment, setComment] = useState("");
 
  const increaseCartValue = () => {
   if (value >= product?.stock) {
@@ -77,6 +78,28 @@ const addToCart = () => {
   }));
 };
 
+  const handleReviewSubmit=(e)=>{
+        e.preventDefault();
+        if(!userRating){
+            toast.error('Please Select a rating',{position:'top-center',autoClose:3000});
+            return
+        }
+        dispatch(createReview({
+            rating:userRating,
+            comment,
+            productId:id
+        }))
+       }
+       useEffect(()=>{
+        if(reviewSuccess){
+            toast.success('Review Submitted Successfully',{position:'top-center',autoClose:3000});
+            setUserRating(0);
+            setComment("");
+            dispatch(removeSuccess())
+            dispatch(getProductDetails(id))
+        }
+       },[reviewSuccess,id,dispatch])
+
     if(loading){
       return(
         <>
@@ -123,10 +146,10 @@ const addToCart = () => {
                   "Add to Cart"
                 )}
           </button>
-           <form className={style["review-form"]}>
+           <form className={style["review-form"]} onSubmit={handleReviewSubmit}>
             <h3>Write a Review</h3>
             <Rating value={0} disabled={false} onRatingChange={handleRatingChange}/>
-            <textarea className={style["review-input"]} placeholder="Share your thoughts about this product..."></textarea>
+            <textarea className={style["review-input"]} placeholder="Share your thoughts about this product..." value={comment} onChange={(e)=>setComment(e.target.value)}></textarea>
             <button className={style["submit-review-btn"]}>Submit Review</button>
            </form>
       </div>

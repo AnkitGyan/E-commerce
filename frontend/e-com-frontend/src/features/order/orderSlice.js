@@ -1,5 +1,6 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
+axios.defaults.withCredentials = true;
 
 export const createOrder= createAsyncThunk('order/createOrder',async(order,{rejectWithValue})=>{
     try{
@@ -8,18 +9,18 @@ export const createOrder= createAsyncThunk('order/createOrder',async(order,{reje
                 'Content-Type':'application/json'
             }
         }
-        const {data}=await axios.post('/api/v1/order/new',order,config)
+        const {data}=await axios.post('/api/v1/order/new',order,config);
         return data;
         
     }catch(error){
-        return rejectWithValue(error.response?.data || 'Order Creating Failed')
+        return rejectWithValue(error.response?.data || 'Order Creating Failed');
     }
 })
 
 //Get User Orders
 export const getAllMyOrders= createAsyncThunk('order/getAllMyOrders',async(_,{rejectWithValue})=>{
     try{
-        const {data}=await axios.get('/api/v1/orders/me')
+        const {data}=await axios.get('/api/v1/orders/me');
         return data;
     }catch(error){
         return rejectWithValue(error.response?.data || 'Failed to fetch orders')
@@ -53,53 +54,51 @@ const orderSlice=createSlice({
             state.success=null
         }
     },
-    extraReducers:(builder)=>[
-        builder
-        .addCase(createOrder.pending,(state)=>{
-            state.loading=true,
-            state.error=null
+   extraReducers: (builder) => {
+    builder
+        .addCase(createOrder.pending, (state) => {
+            state.loading = true;
+            state.error = null;
         })
-        .addCase(createOrder.fulfilled,(state,action)=>{
-            state.loading=false,
-            state.order=action.payload.order
-            state.success=action.payload.success
+        .addCase(createOrder.fulfilled, (state, action) => {
+            state.loading = false;
+            state.order = action.payload.order;
+            state.success = action.payload.success;
         })
-        .addCase(createOrder.rejected,(state,action)=>{
-             state.loading=false,
-            state.error=action.payload?.message ||'Order Creating Failed'
-        }),
-        //Get All user Order
-        builder
-        .addCase(getAllMyOrders.pending,(state)=>{
-            state.loading=true,
-            state.error=null
+        .addCase(createOrder.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload?.message || 'Order Creating Failed';
         })
-        .addCase(getAllMyOrders.fulfilled,(state,action)=>{
-            state.loading=false,
-            state.orders=action.payload.orders
-            state.success=action.payload.success
-        })
-        .addCase(getAllMyOrders.rejected,(state,action)=>{
-             state.loading=false,
-            state.error=action.payload?.message ||'Failed to fetch orders'
-        }),
 
-         //Get Order Details
-         builder
-         .addCase(getOrderDetails.pending,(state)=>{
-             state.loading=true,
-             state.error=null
-         })
-         .addCase(getOrderDetails.fulfilled,(state,action)=>{
-             state.loading=false,
-             state.order=action.payload.order
-             state.success=action.payload.success
-         })
-         .addCase(getOrderDetails.rejected,(state,action)=>{
-              state.loading=false,
-             state.error=action.payload?.message ||'Failed to fetch order details'
-         })
-    ]
+        .addCase(getAllMyOrders.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(getAllMyOrders.fulfilled, (state, action) => {
+            console.log("Orders received:", action.payload);
+            state.loading = false;
+            state.orders = action.payload.orders;
+            state.success = action.payload.success;
+        })
+        .addCase(getAllMyOrders.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload?.message || 'Failed to fetch orders';
+        })
+
+        .addCase(getOrderDetails.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(getOrderDetails.fulfilled, (state, action) => {
+            state.loading = false;
+            state.order = action.payload.order;
+            state.success = action.payload.success;
+        })
+        .addCase(getOrderDetails.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload?.message || 'Failed to fetch order details';
+        });
+}
 })
 export const {removeErrors,removeSuccess}=orderSlice.actions;
 export default orderSlice.reducer;

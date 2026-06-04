@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 
 export const getProduct = createAsyncThunk(
@@ -43,6 +44,22 @@ export const getProductDetails = createAsyncThunk(
   }
 );
 
+// Submit Review
+export const createReview=createAsyncThunk('product/createReview',async({rating,comment,productId},{rejectWithValue})=>{
+    try{
+        const config={
+            headers:{
+                'Content-Type':'application/json'
+            }
+        }
+        
+        const {data}=await axios.put('/api/v1/product/review',{rating,comment,productId},config);
+        return data;
+    }catch(error){
+        return rejectWithValue(error.response?.data || 'An error occurred')
+    }
+});
+
 
 const productSlice = createSlice({
   name: "product",
@@ -55,11 +72,16 @@ const productSlice = createSlice({
     productCount: 0,
     resultsPerPage: 0,
     totalPages: 0,
+    reviewSuccess:false,
+    reviewLoading:false
   },
 
   reducers: {
     removeErrors: (state) => {
       state.error = null;
+    },
+    removeSuccess:(state)=>{
+        state.reviewSuccess=false
     },
   },
 
@@ -111,9 +133,24 @@ const productSlice = createSlice({
           action.payload ||
           "Failed to fetch product details";
       });
+
+    builder.addCase(createReview.pending,(state)=>{
+        state.reviewLoading=true;
+        state.error=null
+    })
+    .addCase(createReview.fulfilled,(state,action)=>{
+        state.reviewLoading=false;
+        state.reviewSuccess=true;
+    })
+    .addCase(createReview.rejected,(state,action)=>{
+        state.reviewLoading=false;
+        state.error=action.payload ||'Something went wrong'
+       
+        
+    })
   },
 });
 
-export const { removeErrors } = productSlice.actions;
+export const { removeErrors, removeSuccess } = productSlice.actions;
 
 export default productSlice.reducer;

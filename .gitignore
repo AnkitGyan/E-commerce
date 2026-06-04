@@ -1,2 +1,12 @@
 node_modules
 config.env
+logs
+*.log
+pids
+*.pid
+*.seed
+*.pid.lock
+coverage
+*.lcov
+nyc_output
+dist
