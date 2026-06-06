@@ -60,7 +60,7 @@ export const deleteProduct=createAsyncThunk('admin/deleteProduct',async(productI
 export const fetchUsers=createAsyncThunk('admin/fetchUsers',async(_,{rejectWithValue})=>{
     try{
       
-        const {data}=await axios.get(`/api/v1/admin/users`)
+        const {data}=await axios.get(`/api/v1/user/admin/users`)
         return data;
     }catch(error){
         return rejectWithValue(error.response?.data ||"Failed to fetch users")

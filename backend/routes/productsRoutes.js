@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/products', getAllProducts);
 router.get('/product/:id', getSingleProduct);
 router.put("/product/review", veryifyUser,  createProductReview);
-router.get("/products/reviews", getProductReviews);
+router.get("/admin/reviews", veryifyUser, roleBasedAccess("admin"), getProductReviews);
 router.get('/admin/products', veryifyUser, roleBasedAccess('admin'), getAdminProducts);
 router.post("/admin/product/new", veryifyUser, roleBasedAccess("admin"), addProduct);
 router.put("/admin/product/:id", veryifyUser, roleBasedAccess("admin"), updateProduct);
