@@ -26,6 +26,7 @@ import ProductsList from "./admin/product/ProductsList.jsx";
 import CreateProduct from "./admin/product/CreateProduct.jsx";
 import UpdateProduct from "./admin/product/UpdateProduct.jsx";
 import OrdersList from "./admin/order/OrdersList.jsx";
+import UpdateOrder from "./admin/order/UpdateOrder.jsx";
 
 function App() {
   const {isAuthenticated, user} = useSelector(state=>state.user);
@@ -62,6 +63,7 @@ function App() {
        <Route path="/admin/product/create" element={<ProtectedRoute element={<CreateProduct/>} adminOnly={true}/>}/>
       <Route path="/admin/product/:updateId" element={<ProtectedRoute element={<UpdateProduct/>} adminOnly={true}/>}/>
       <Route path="/admin/orders" element={<ProtectedRoute element={<OrdersList/>} adminOnly={true}/>}/>
+      <Route path="/admin/order/:orderId" element={<ProtectedRoute element={<UpdateOrder/>} adminOnly={true}/>}/>
     </Routes>
     {isAuthenticated && <UserDashboard user={user}/>}
     </BrowserRouter>

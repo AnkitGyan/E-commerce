@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getOrderDetails } from '../../features/order/orderSlice';
 import Loader from '../../components/loader/Loader';
 import { toast } from 'react-toastify';
-import { removeErrors, removeSuccess, updateOrderStatus } from '../features/admin/adminSlice';
+import { removeErrors, removeSuccess, updateOrderStatus } from '../../features/admin/adminSlice';
 
 function UpdateOrder() {
     const [status,setStatus]=useState("")
