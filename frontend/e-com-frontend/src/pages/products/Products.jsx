@@ -33,7 +33,7 @@ function Products() {
     "Toys",
     "Sports",
     "Beauty",
-    "Automotive",
+    "begs",
   ];
 
   const search = new URLSearchParams(location.search);

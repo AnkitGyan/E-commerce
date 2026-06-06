@@ -2,29 +2,42 @@ import Product from "../models/productModel.js";
 import { wrapAsync } from "../middlewares/wrapAsync.js";
 import HandleError from "../utils/handleError.js";
 import APIFuntionality from "../utils/apiFuntionality.js";
+import {v2 as cloudinary} from "cloudinary";
+
 //adding product
 export const addProduct = wrapAsync(async (req, res, next) => {
-  const { name, description, price, images, category, stock } = req.body;
-  
+  const { name, description, price, category, stock } = req.body;
+
   let images = [];
 
-  if(typeof req.body.images === "string"){
+  if (typeof req.body.images === "string") {
     images.push(req.body.images);
-  } else{
-    images = req.body.images;
+  } else {
+    images = req.body.images || [];
   }
 
-  
+  const imageLinks = [];
 
-  if (!name || !description || !price || !images || !category || !stock) {
-    return next(new HandleError(404, "All field are required"));
+  for (let i = 0; i < images.length; i++) {
+    const myCloud = await cloudinary.uploader.upload(images[i], {
+      folder: "products",
+    });
+
+    imageLinks.push({
+      public_id: myCloud.public_id,
+      url: myCloud.secure_url,
+    });
+  }
+
+  if (!name || !description || !price || imageLinks.length === 0 || !category || !stock) {
+    return next(new HandleError(400, "All fields are required, please provide complete details"));
   }
 
   const product = await Product.create({
     name,
     description,
     price,
-    images,
+    images: imageLinks,
     category,
     stock,
     user: req.user.id,
