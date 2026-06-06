@@ -22,9 +22,9 @@ import PaymentSuccess from "./cart/payment/PaymentSuccess.jsx";
 import MyOrders from "./orders/MyOrders.jsx";
 import OrderDetails from "./orders/OrderDetails.jsx";
 import Dashboard from "./admin/dashboard/Dashboard.jsx";
+import ProductsList from "./admin/product/ProductsList.jsx";
 
 function App() {
-
   const {isAuthenticated, user} = useSelector(state=>state.user);
   const dispatch = useDispatch();
 
@@ -39,7 +39,7 @@ function App() {
       <Route path ="/product/:id" element={<ProductDetails/>} />
       <Route path="/products" element={<Products/>}/>
       <Route path="/products/:keyword" element={<Products/>}/>
-      <Route path="/register" element={<Register/>} />
+      <Route path="/register" element={<Register/>}/>
       <Route path="/login" element={<Login/>} />
       <Route path="/profile/update" element={<ProtectedRoute element={<UpdateProfile/>}/>}/>
       <Route path="/profile" element={<ProtectedRoute element={<Profile/>}/>}/>
@@ -54,7 +54,8 @@ function App() {
       <Route path="/orders/user" element={<ProtectedRoute element={<MyOrders/>}/>}/>
       <Route path="/order/:orderId" element={<ProtectedRoute element={<OrderDetails/>}/>}/>
        {/* Admin Routes */}
-      <Route path="/admin/dashboard" element={<ProtectedRoute element={<Dashboard/>}/>}/>
+      <Route path="/admin/dashboard" element={<ProtectedRoute element={<Dashboard/>} adminOnly={true}/>}/>
+      <Route path="/admin/products" element={<ProtectedRoute element={<ProductsList/>} adminOnly={true}/>}/>
     </Routes>
     {isAuthenticated && <UserDashboard user={user}/>}
     </BrowserRouter>
