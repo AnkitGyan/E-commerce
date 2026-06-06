@@ -5,6 +5,16 @@ import APIFuntionality from "../utils/apiFuntionality.js";
 //adding product
 export const addProduct = wrapAsync(async (req, res, next) => {
   const { name, description, price, images, category, stock } = req.body;
+  
+  let images = [];
+
+  if(typeof req.body.images === "string"){
+    images.push(req.body.images);
+  } else{
+    images = req.body.images;
+  }
+
+  
 
   if (!name || !description || !price || !images || !category || !stock) {
     return next(new HandleError(404, "All field are required"));
