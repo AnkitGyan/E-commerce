@@ -105,7 +105,7 @@ export const resetPassword=createAsyncThunk('user/resetPassword',async({token,us
             }
         }
         const {data}=await axios.post(`/api/v1/user/reset/${token}`,userData,config);
-        return data
+        return data;
     }catch(error){
         return rejectWithValue(error.response?.data || {message:'Email sent Failed'})
     }

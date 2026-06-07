@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {useSelector,useDispatch} from 'react-redux';
 import { register, removeErrors, removeSuccess } from '../../features/user/userSlice';
+import Navbar from '../../components/navbar/Navbar';
+import Footer from '../../components/footer/Footer';
 
 function Register() {
     const [user,setUser]=useState({
@@ -60,6 +62,8 @@ function Register() {
         }
       },[dispatch,success])
   return (
+    <>
+    <Navbar/>
     <div className="form-container container">
         <div className="form-content">
             <form className="form" onSubmit={registerSubmit} encType="multipart/form-data">
@@ -84,6 +88,8 @@ function Register() {
             </form>
         </div>
     </div>
+    <Footer/>
+    </>
   )
 }
 

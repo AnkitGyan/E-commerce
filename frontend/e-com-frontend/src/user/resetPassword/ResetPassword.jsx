@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { removeErrors, removeSuccess, resetPassword } from '../../features/user/userSlice';
 import { toast } from 'react-toastify';
 import Navbar from '../../components/navbar/Navbar';
+import Footer from '../../components/footer/Footer';
 
 function ResetPassword() {
     const {success,loading,error}=useSelector(state=>state.user)

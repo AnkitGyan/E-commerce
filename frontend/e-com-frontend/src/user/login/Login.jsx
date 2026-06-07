@@ -4,6 +4,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, removeErrors, removeSuccess } from '../../features/user/userSlice';
 import { toast } from 'react-toastify';
+import Navbar from '../../components/navbar/Navbar';
+import Footer from '../../components/footer/Footer';
 
 function Login() {
     const [loginEmail,setLoginEmail]=useState("");
@@ -36,6 +38,8 @@ function Login() {
     }
    },[dispatch,success])
   return (
+    <>
+   <Navbar/>
    <div className="form-container container">
     <div className="form-content">
         <form className='form' onSubmit={loginSubmit}>
@@ -51,6 +55,8 @@ function Login() {
         </form>
     </div>
    </div>
+   <Footer/>
+   </>
   )
 }
 
