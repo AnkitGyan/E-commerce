@@ -19,7 +19,7 @@ app.get("/", (req, res)=>{
 });
 
 process.on("uncaughtException", (err)=>{
-  console.log(`error : ${err.msg}`);
+  console.error(err);
   console.log("Server is shuting down due to unhandled promise rejection");
   process.exit(1);
 })
@@ -27,8 +27,8 @@ process.on("uncaughtException", (err)=>{
 const PORT = process.env.PORT
 
 export const instance = new Razorpay({
-  key_id : process.env.Razorpay_API_KEY,
-  key_secret : process.env.Razorpay_API_SECRET
+  key_id : process.env.RAZORPAY_API_KEY,
+  key_secret : process.env.RAZORPAY_API_SECRET
 })
 
  const server = app.listen(PORT, () => {
@@ -36,7 +36,7 @@ export const instance = new Razorpay({
 });
 
 process.on("unhandledRejection", (err)=>{
-  console.log(`error : ${err.msg}`);
+  console.error(err);
   console.log("Server is shuting down due to unhandled promise rejection");
   server.close(()=>{
     process.exit(1);
