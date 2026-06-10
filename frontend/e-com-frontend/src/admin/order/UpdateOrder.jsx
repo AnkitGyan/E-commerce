@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './UpdateOrder.css'
 import Navbar from '../../components/navbar/Navbar';
-import PageTitle from '../../components/pagetitle/PageTitle';
+import PageTitle from '../../components/pageTitle/PageTitle';
 import Footer from '../../components/footer/Footer';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';

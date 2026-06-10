@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../../user/form.css'
+import '../../user/Form.css'
 import Navbar from '../../components/navbar/Navbar';
 import Footer from '../../components/footer/Footer';
 import { toast } from 'react-toastify';
