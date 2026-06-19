@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+
+  frontend:
+    build: ./frontend/e-com-frontend
+    container_name: ecommerce-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend
+    container_name: ecommerce-backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/config/config.env
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./backend/prometheus.yml:/etc/prometheus/prometheus.yml
+    depends_on:
+      - backend
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3001:3000"
+    depends_on:
+      - prometheus
