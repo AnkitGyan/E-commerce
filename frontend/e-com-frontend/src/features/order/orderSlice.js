@@ -1,6 +1,5 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit';
-import axios from 'axios';
-axios.defaults.withCredentials = true;
+import API from "../../../axios.js"
 
 export const createOrder= createAsyncThunk('order/createOrder',async(order,{rejectWithValue})=>{
     try{
@@ -9,7 +8,7 @@ export const createOrder= createAsyncThunk('order/createOrder',async(order,{reje
                 'Content-Type':'application/json'
             }
         }
-        const {data}=await axios.post('/api/v1/order/new',order,config);
+        const {data}=await API.post('/api/v1/order/new',order,config);
         return data;
         
     }catch(error){
@@ -20,7 +19,7 @@ export const createOrder= createAsyncThunk('order/createOrder',async(order,{reje
 //Get User Orders
 export const getAllMyOrders= createAsyncThunk('order/getAllMyOrders',async(_,{rejectWithValue})=>{
     try{
-        const {data}=await axios.get('/api/v1/orders/me');
+        const {data}=await API.get('/api/v1/orders/me');
         return data;
     }catch(error){
         return rejectWithValue(error.response?.data || 'Failed to fetch orders')
@@ -30,7 +29,7 @@ export const getAllMyOrders= createAsyncThunk('order/getAllMyOrders',async(_,{re
 
 export const getOrderDetails= createAsyncThunk('order/getOrderDetails',async(orderID,{rejectWithValue})=>{
     try{
-        const {data}=await axios.get(`/api/v1/order/${orderID}`)
+        const {data}=await API.get(`/api/v1/order/${orderID}`)
         return data;
     }catch(error){
         return rejectWithValue(error.response?.data || 'Failed to fetch order details')
