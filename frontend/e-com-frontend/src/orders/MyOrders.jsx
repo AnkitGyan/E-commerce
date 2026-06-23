@@ -14,7 +14,7 @@ function MyOrders() {
     const {orders,loading,error}=useSelector(state=>state.order);
     
     const dispatch = useDispatch();
-    
+    console.log("getting your order");
    useEffect(() => {
     dispatch(getAllMyOrders());
 }, [dispatch]);

@@ -28,6 +28,7 @@ function PaymentSuccess() {
     (state) => state.order
   );
 
+  console.log("creating order....");
   useEffect(() => {
     const createOrderData = async () => {
       try {
@@ -82,7 +83,7 @@ function PaymentSuccess() {
 
     createOrderData();
   }, [dispatch, cartItems, shippingInfo, reference]);
-
+  console.log("Order created");
   useEffect(() => {
     if (success) {
       toast.success('Order Placed Successfully!', {
