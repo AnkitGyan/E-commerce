@@ -13,7 +13,7 @@ import { toast } from 'react-toastify';
 function MyOrders() {
     const {orders,loading,error}=useSelector(state=>state.order);
     
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     
    useEffect(() => {
     dispatch(getAllMyOrders());

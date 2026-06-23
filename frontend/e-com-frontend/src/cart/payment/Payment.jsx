@@ -5,7 +5,7 @@ import Navbar from '../../components/navbar/Navbar';
 import Footer from '../../components/footer/Footer';
 import CheckoutPath from '../../cart/checkout/CheckoutPath';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import API from "../../../axios.js";
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
@@ -24,14 +24,15 @@ function Payment() {
   const completePayment = async (amount) => {
     try {
       // Get Razorpay Key
-      const { data: keyData } = await axios.get(
+      console.log("calling api to get key for payment");
+      const { data: keyData } = await API.get(
         '/api/v1/getKey'
       );
-
+      console.log(keyData);
       const { key } = keyData;
 
       // Create Razorpay Order
-      const { data: orderData } = await axios.post(
+      const { data: orderData } = await API.post(
         '/api/v1/payment/process',
         { amount }
       );
@@ -56,7 +57,7 @@ function Payment() {
               response
             );
 
-            const { data } = await axios.post(
+            const { data } = await API.post(
               '/api/v1/paymentVerification',
               {
                 razorpay_payment_id:
