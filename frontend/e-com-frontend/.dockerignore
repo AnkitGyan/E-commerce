@@ -8,3 +8,4 @@ build
 .git
 .vscode
 .idea
+.env.*
